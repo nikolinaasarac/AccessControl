@@ -2,16 +2,17 @@
 import {useState} from "react";
 import {auth} from "@/lib/firebase";
 import {signInWithEmailAndPassword} from "@firebase/auth";
-import {useRouter} from "next/router";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
 
     async function logIn(){
         try{
             await signInWithEmailAndPassword(auth, email, password);
+            router.push("/");
         }
         catch(err){
             console.log("Neispravni podaci za prijavu");
