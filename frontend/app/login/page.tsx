@@ -23,7 +23,7 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center px-4 bg-gray-100">
-			<div className="w-full flex flex-col max-w-sm bg-white p-6 rounded-xl shadow-md">
+			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex items-center gap-2 py-4">
 					<img
 						src="/secure-login.png"
