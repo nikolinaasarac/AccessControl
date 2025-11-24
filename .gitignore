@@ -1,4 +1,7 @@
 .idea/
+
+backend/keys/
+backend/.env
 # Logs
 logs
 *.log
