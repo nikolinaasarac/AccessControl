@@ -26,7 +26,7 @@ export default function Page() {
 			const { token } = await res.json();
 			localStorage.setItem("accessToken", token);
 			await signInWithCustomToken(auth, token);
-			router.push("/");
+			router.push("/guests");
 		}
 		catch(err){
 			console.log("Neispravni podaci za prijavu");
