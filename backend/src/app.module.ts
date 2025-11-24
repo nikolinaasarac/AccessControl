@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import {ConfigModule} from "@nestjs/config";
 import { FirebaseModule } from './firebase/firebase.module';
 import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({cache: true}), FirebaseModule, PostsModule],
+  imports: [ConfigModule.forRoot({cache: true}), FirebaseModule, PostsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,6 +1,6 @@
 "use client"
 import {auth} from "@/lib/firebase";
-import {signInWithEmailAndPassword} from "@firebase/auth";
+import {signInWithCustomToken} from "@firebase/auth";
 import {useRouter} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -13,10 +13,22 @@ export default function Page() {
 	});
 
 	const logIn = async (data: { email: string; password: string }) => {
-		try {
-			await signInWithEmailAndPassword(auth, data.email, data.password);
+		try{
+			const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`, {
+				method: "POST",
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({email: data.email, password: data.password})
+			})
+
+			if(!res.ok){
+				throw new Error('Login failed.');
+			}
+			const { token } = await res.json();
+			localStorage.setItem("accessToken", token);
+			await signInWithCustomToken(auth, token);
 			router.push("/");
-		} catch (err) {
+		}
+		catch(err){
 			console.log("Neispravni podaci za prijavu");
 		}
 	};
