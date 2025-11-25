@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseApi = axios.create(
+const axiosInstance = axios.create(
 	{
 		baseURL: "http://localhost:8000",
 		headers: {
@@ -10,11 +10,11 @@ const baseApi = axios.create(
 	}
 );
 
-baseApi.interceptors.request.use((config) => {
+axiosInstance.interceptors.request.use((config) => {
 	const token = localStorage.getItem("accessToken");
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
 	return config;
 });
-export default baseApi;
+export default axiosInstance;

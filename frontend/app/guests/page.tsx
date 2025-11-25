@@ -1,16 +1,13 @@
 "use client"
 
 import {Button} from "@/components/ui/button";
-import {signOut} from "@firebase/auth";
-import {auth} from "@/lib/firebase";
 import {useRouter} from "next/navigation";
 
 export default function Guests(){
 	const router = useRouter();
 	const logout = async () => {
 		try {
-			await signOut(auth); // Odjava iz Firebase-a
-			localStorage.removeItem("accessToken"); // Brišeš token iz lokalnog storage-a
+			localStorage.removeItem("accessToken");
 			router.push("/login");
 		} catch (err) {
 			console.error("Logout failed", err);
