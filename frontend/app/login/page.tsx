@@ -1,6 +1,4 @@
 "use client"
-import {auth} from "@/lib/firebase";
-import {signInWithCustomToken} from "@firebase/auth";
 import {useRouter} from "next/navigation";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
@@ -25,7 +23,6 @@ export default function Page() {
 			}
 			const { token } = await res.json();
 			localStorage.setItem("accessToken", token);
-			await signInWithCustomToken(auth, token);
 			router.push("/guests");
 		}
 		catch(err){
