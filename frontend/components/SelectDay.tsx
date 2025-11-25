@@ -8,15 +8,20 @@ import {
 	SelectValue
 } from "@/components/ui/select";
 
-export function SelectDay(){
-	return(
-	<Select>
-		<SelectTrigger className="w-full">
-			<SelectValue placeholder="Select Access Days" />
-		</SelectTrigger>
-		<SelectContent>
-			<SelectGroup>
-				<Select>
+type Props = {
+	value: string;
+	onChange: (value: string) => void;
+}
+
+export function SelectDay({ value, onChange } : Props) {
+	return (
+		<Select value={value} onValueChange={onChange}>
+			<SelectTrigger className="w-full">
+				<SelectValue placeholder="Select Access Days" />
+			</SelectTrigger>
+
+			<SelectContent>
+				<SelectGroup>
 					<SelectLabel>Days</SelectLabel>
 					<SelectItem value="any">Any Days</SelectItem>
 					<SelectItem value="mon">Mon</SelectItem>
@@ -26,8 +31,8 @@ export function SelectDay(){
 					<SelectItem value="fri">Fri</SelectItem>
 					<SelectItem value="sat">Sat</SelectItem>
 					<SelectItem value="sun">Sun</SelectItem>
-				</Select>
-			</SelectGroup>
-		</SelectContent>
-	</Select>)
+				</SelectGroup>
+			</SelectContent>
+		</Select>
+	);
 }
