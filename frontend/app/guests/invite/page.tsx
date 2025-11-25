@@ -13,6 +13,7 @@ export default function InvitePage() {
 	const [toTime, setToTime] = useState("00:00");
 	const [anyTime, setAnyTime] = useState(false);
 	const [company, setCompany] = useState(false);
+	const [accessDay, setAccessDay] = useState("");
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div
@@ -20,7 +21,7 @@ export default function InvitePage() {
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Invite Guests</h1>
 					<Button
-						className="px-4 py-2 rounded hover:cursor-pointer"
+						className="px-4 py-2 hover:cursor-pointer"
 						onClick={() => router.back()}
 					>
 						Back
@@ -78,21 +79,22 @@ export default function InvitePage() {
 						</div>
 						<div className="flex-1">
 							<label className="block mb-1">Access Days</label>
-							<SelectDay/>
+							<SelectDay value={accessDay} onChange={setAccessDay}/>
 						</div>
 					</div>
 					<label className="block mb-1">Access Time</label>
 					<div className="flex-1 my-3">
-						<label className="flex items-center gap-5">
+						<div  className="flex items-center gap-5">
 							<input
 								type="checkbox"
-								className="mt-1"
+								className="hover:cursor-pointer"
 								checked={anyTime}
 								onChange={() => setAnyTime(!anyTime)}
-
 							/>
-							Any Time
-						</label>
+							<label>
+								Any Time
+							</label>
+						</div>
 					</div>
 					<div className="flex items-center justify-between mb-6 gap-2">
 
