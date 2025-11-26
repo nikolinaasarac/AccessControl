@@ -8,4 +8,8 @@ export default class UserService {
 	static async getGuests(queryParams: QueryParams = {}) {
 		return BaseService.fetchList<Guest[]>(this.ENDPOINT)
 	}
+
+	static async createGuest(guestData: Guest): Promise<Guest> {
+		return BaseService.create<Guest>(this.ENDPOINT, guestData);
+	}
 }

@@ -13,4 +13,15 @@ export class BaseService<T> {
 		const snapshot = await collectionRef.get();
 		return snapshot.docs.map((doc) => doc.data() as T);
 	}
+
+	async create(data: Partial<T>): Promise<string> {
+		console.log(data);
+		const docRef = this.firebaseService.firestore
+			.collection(this.collectionName)
+			.doc(); // auto-ID
+		console.log(data);
+		await docRef.set(data);
+		return docRef.id;
+	}
+
 }

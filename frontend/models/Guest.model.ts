@@ -6,7 +6,6 @@ export interface Guest{
 	companyName?: string;
 	accessDays?: string[];
 	anyTime?: boolean;
-	fromTime?: string;
+	fromTime?: string | null;
 	toTime?: string;
-	createdAt: string;
 }
