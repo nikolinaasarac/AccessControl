@@ -19,6 +19,10 @@ export default function Guests(){
 		router.push("guests/invite");
 	}
 
+	const handleOTC= async () => {
+		router.push("guests/otc");
+	}
+
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
@@ -26,7 +30,7 @@ export default function Guests(){
 				<h1 className="text-2xl font-bold text-gray-700">Guests</h1>
 				<div className="flex gap-2">
 					<Button className="cursor-pointer" onClick={handleInvite}>Invite guest</Button>
-					<Button className="cursor-pointer">One time code</Button>
+					<Button className="cursor-pointer" onClick={handleOTC}>One time code</Button>
 					<Button className="cursor-pointer" onClick={logout}>Log out</Button>
 				</div>
 			</div>
