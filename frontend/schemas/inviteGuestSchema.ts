@@ -36,19 +36,19 @@ export const inviteGuestSchema = yup.object({
 
 	fromTime: yup
 		.string()
+		.nullable()
 		.when("anyTime", {
 			is: false,
-			then: (schema) =>
-				schema.required("Start time is required"),
+			then: (schema) => schema.required("Start time is required"),
 			otherwise: (schema) => schema.notRequired(),
 		}),
 
 	toTime: yup
 		.string()
+		.nullable()
 		.when("anyTime", {
 			is: false,
-			then: (schema) =>
-				schema.required("End time is required"),
+			then: (schema) => schema.required("End time is required"),
 			otherwise: (schema) => schema.notRequired(),
 		}),
 });
