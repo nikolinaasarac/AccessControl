@@ -1,22 +1,45 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { app } from 'firebase-admin';
+import { Injectable } from '@nestjs/common';
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FirebaseService {
-	#db: FirebaseFirestore.Firestore;
-	#collection: FirebaseFirestore.CollectionReference;
+	private app: admin.app.App;
+	private db: FirebaseFirestore.Firestore;
 
-	constructor(@Inject('FIREBASE_APP') private firebaseApp: app.App) {
-		this.#db = firebaseApp.firestore();
-		this.#collection = this.#db.collection('<collection_name>');
+	constructor() {
+		const serviceAccount = {
+			type: process.env.FIREBASE_TYPE,
+			project_id: process.env.FIREBASE_PROJECT_ID,
+			private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+			private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+			client_email: process.env.FIREBASE_CLIENT_EMAIL,
+		} as admin.ServiceAccount;
+
+		const firebaseConfig = {
+			type: process.env.TYPE,
+			project_id: process.env.PROJECT_ID,
+			private_key_id: process.env.PRIVATE_KEY_ID,
+			private_key: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
+			client_email: process.env.CLIENT_EMAIL,
+			client_id: process.env.CLIENT_ID,
+			auth_uri: process.env.AUTH_URI,
+			token_uri: process.env.TOKEN_URI,
+			auth_provider_x509_cert_url: process.env.AUTH_CERT_URL,
+			client_x509_cert_url: process.env.CLIENT_CERT_URL,
+			universe_domain: process.env.UNIVERSAL_DOMAIN,
+		} as admin.ServiceAccount;
+
+		this.app = admin.apps.length
+			? admin.app()
+			: admin.initializeApp({
+				credential: admin.credential.cert(firebaseConfig),
+				databaseURL: process.env.FIREBASE_DATABASE_URL,
+			});
+
+		this.db = this.app.firestore();
 	}
 
-	async testConnection(): Promise<string> {
-		try {
-			await this.#db.listCollections();
-			return 'Firebase connected!';
-		} catch (err) {
-			return `Firebase connection failed: ${err.message}`;
-		}
+	get firestore(): admin.firestore.Firestore {
+		return this.db;
 	}
 }
