@@ -2,9 +2,31 @@
 
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
+import {GuestItem} from "@/components/GuestItem";
+import {useEffect, useState} from "react";
+import {Guest} from "@/models/Guest.model";
+import UserService from "@/lib/service/guests.service";
 
 export default function Guests(){
 	const router = useRouter();
+	const [guests, setGuests] = useState<Guest[]>([]);
+
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchGuests = async () => {
+			try {
+				const data = await UserService.getGuests();
+				setGuests(data);
+			} catch (err) {
+				console.error("Failed to fetch guests", err);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchGuests();
+	}, []);
 
 	const logout = async () => {
 		try {
@@ -36,7 +58,14 @@ export default function Guests(){
 			</div>
 
 			<div className="bg-white rounded-lg shadow p-4 min-h-[400px]">
-				<p className="text-gray-400 text-center">Guest list will appear here...</p>
+				<ul className="space-y-2">
+					{guests.map((guest) => (
+						<GuestItem
+							firstName={guest.firstName}
+							lastName={guest.lastName}
+						/>
+					))}
+				</ul>
 			</div>
 			</div>
 		</div>
