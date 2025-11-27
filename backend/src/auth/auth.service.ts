@@ -18,9 +18,20 @@ export class AuthService {
 		if (data.error) {
 			throw new BadRequestException(data.error.message || JSON.stringify(data.error));
 		}
-		const customToken = await admin.auth().createCustomToken(data.localId);
-		console.log(customToken);
+		return { token:data.idToken};
+	}
 
-		return { token: customToken }
+	async getMe(uid: string) {
+		try {
+			const userRecord = await admin.auth().getUser(uid);
+			return {
+				uid: userRecord.uid,
+				email: userRecord.email,
+				displayName: userRecord.displayName,
+				photoURL: userRecord.photoURL,
+			};
+		} catch (error) {
+			throw new BadRequestException('Failed to get user info');
+		}
 	}
 }

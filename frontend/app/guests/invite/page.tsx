@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { SelectDay } from "@/components/SelectDay";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { inviteGuestSchema } from "@/schemas/inviteGuestSchema";
+import { inviteGuestSchema } from "@/schemas/invite-guest.schema";
 import UserService from "@/lib/service/guests.service";
+import {useAuth} from "@/context/auth-context";
 
 export default function InvitePage() {
 	const router = useRouter();
-
+	const {user} = useAuth();
+	console.log(user);
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
@@ -59,7 +61,7 @@ export default function InvitePage() {
 						}
 					}}
 				>
-					{({ values, setFieldValue, isSubmitting }) => (
+					{({ values, setFieldValue, isSubmitting, errors, touched }) => (
 						<Form className="w-full flex flex-col gap-4">
 							<div className="flex items-center justify-between mb-6 gap-4">
 								<div className="flex-1">
@@ -67,10 +69,13 @@ export default function InvitePage() {
 									<Field
 										as={Input}
 										name="firstName"
-										className="w-full border px-2 py-1 rounded"
+										className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
+          								${errors.firstName && touched.firstName
+											? "border-red-500 focus:ring-red-400"
+											: "border-gray-300 focus:ring-blue-400"}`}
 									/>
 									<div className="text-red-500 text-sm h-2 mt-1">
-										<ErrorMessage name="firstName" component="span" />
+										<ErrorMessage name="firstName" component="span"  />
 									</div>
 								</div>
 
@@ -79,7 +84,10 @@ export default function InvitePage() {
 									<Field
 										as={Input}
 										name="lastName"
-										className="w-full border px-2 py-1 rounded"
+										className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
+          								${errors.lastName && touched.lastName
+											? "border-red-500 focus:ring-red-400"
+											: "border-gray-300 focus:ring-blue-400"}`}
 									/>
 									<div className="text-red-500 text-sm h-2 mt-1">
 									<ErrorMessage
@@ -109,7 +117,10 @@ export default function InvitePage() {
 											<Field
 												as={Input}
 												name="companyName"
-												className="w-full border rounded mt-1 box-border"
+												className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
+          								${errors.companyName && touched.companyName
+													? "border-red-500 focus:ring-red-400"
+													: "border-gray-300 focus:ring-blue-400"}`}
 											/>
 											<div className="text-red-500 text-sm h-2 mt-1">
 											<ErrorMessage
@@ -129,7 +140,10 @@ export default function InvitePage() {
 									<Field
 										as={Input}
 										name="phoneNumber"
-										className="w-full border px-2 py-1 rounded"
+										className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
+          								${errors.phoneNumber && touched.phoneNumber
+											? "border-red-500 focus:ring-red-400"
+											: "border-gray-300 focus:ring-blue-400"}`}
 									/>
 									<div className="text-red-500 text-sm h-2 mt-1">
 									<ErrorMessage
@@ -178,7 +192,10 @@ export default function InvitePage() {
 											value={values.fromTime}
 											onChange={(e) => setFieldValue("fromTime", e.target.value)}
 											disabled={values.anyTime}
-											className="w-full p-2 rounded-lg border mt-1 transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-500"
+											className={`w-full p-2 rounded-lg border mt-1 transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-500
+          								${errors.fromTime && touched.toTime
+												? "border-red-500 focus:ring-red-400"
+												: "border-gray-300 focus:ring-blue-400"}`}
 										/>
 										<div className="text-red-500 text-sm h-2 mt-1">
 										<ErrorMessage
@@ -198,7 +215,10 @@ export default function InvitePage() {
 											value={values.toTime}
 											onChange={(e) => setFieldValue("toTime", e.target.value)}
 											disabled={values.anyTime}
-											className="w-full p-2 rounded-lg border mt-1 transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-500"
+											className={`w-full p-2 rounded-lg border mt-1 transition-colors duration-200 disabled:bg-gray-200 disabled:text-gray-500
+          								${errors.toTime && touched.toTime
+												? "border-red-500 focus:ring-red-400"
+												: "border-gray-300 focus:ring-blue-400"}`}
 										/>
 										<div className="text-red-500 text-sm h-2 mt-1">
 										<ErrorMessage
