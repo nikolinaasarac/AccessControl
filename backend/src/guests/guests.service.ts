@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {BaseService} from "../base/base.service";
 import {Guest} from "./entities/Guest";
 import {FirebaseService} from "../firebase/firebase.service";
@@ -21,5 +21,9 @@ export class GuestsService extends BaseService<Guest> {
 		}
 
 		return super.create(toPlainObject(guestData));
+	}
+
+	async getMyGuests(uid: string): Promise<Guest[]> {
+		return await super.query({field: "creatorId", operator: "==", value: uid});
 	}
 }

@@ -9,6 +9,10 @@ export default class GuestsService {
 		return BaseService.fetchList<Guest[]>(this.ENDPOINT)
 	}
 
+	static async getMyGuests() {
+		return BaseService.fetchList<Guest[]>(this.ENDPOINT + '/me');
+	}
+
 	static async createGuest(guestData: Guest): Promise<Guest> {
 		return BaseService.create<Guest>(this.ENDPOINT, guestData);
 	}

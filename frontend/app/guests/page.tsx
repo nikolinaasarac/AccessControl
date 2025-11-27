@@ -16,7 +16,7 @@ export default function Guests(){
 	useEffect(() => {
 		const fetchGuests = async () => {
 			try {
-				const data = await UserService.getGuests();
+				const data = await UserService.getMyGuests();
 				setGuests(data);
 			} catch (err) {
 				console.error("Failed to fetch guests", err);

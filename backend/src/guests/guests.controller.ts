@@ -4,7 +4,7 @@ import {
 	Controller,
 	Get,
 	InternalServerErrorException,
-	Post,
+	Post, Query,
 	UseGuards
 } from '@nestjs/common';
 import {GuestsService} from "./guests.service";
@@ -21,11 +21,16 @@ export class GuestsController {
 
 	@Get() // /guests
 	async getAllGuests() {
-		return this.guestsService.getAll();
+		return await this.guestsService.getAll();
 	}
 
 	@Post()
 	async createGuest(@CurrentUser() uid: string, @Body() createGuestDto: CreateGuestDto) {
 		return await this.guestsService.createGuest(uid, createGuestDto);
+	}
+
+	@Get('/me')
+	async getMyGuests(@CurrentUser() uid: string) {
+		return await this.guestsService.getMyGuests(uid);
 	}
 }
