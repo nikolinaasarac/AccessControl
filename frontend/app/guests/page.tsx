@@ -63,6 +63,7 @@ export default function Guests(){
 						<GuestItem
 							firstName={guest.firstName}
 							lastName={guest.lastName}
+							companyName={guest.companyName}
 						/>
 					))}
 				</ul>

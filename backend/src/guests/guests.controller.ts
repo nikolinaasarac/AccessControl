@@ -3,7 +3,7 @@ import {
 	Body,
 	Controller,
 	Get,
-	InternalServerErrorException,
+	InternalServerErrorException, Param,
 	Post, Query,
 	UseGuards
 } from '@nestjs/common';
@@ -32,5 +32,10 @@ export class GuestsController {
 	@Get('/me')
 	async getMyGuests(@CurrentUser() uid: string) {
 		return await this.guestsService.getMyGuests(uid);
+	}
+
+	@Get(':id') // /guests
+	async getGuestById(@Param('id') id: string) {
+		return await this.guestsService.getGuestById(id);
 	}
 }

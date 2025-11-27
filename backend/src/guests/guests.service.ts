@@ -26,4 +26,8 @@ export class GuestsService extends BaseService<Guest> {
 	async getMyGuests(uid: string): Promise<Guest[]> {
 		return await super.query({field: "creatorId", operator: "==", value: uid});
 	}
+
+	async getGuestById(id: string): Promise<Guest | null> {
+		return await super.getById(id);
+	}
 }

@@ -16,4 +16,8 @@ export default class GuestsService {
 	static async createGuest(guestData: Guest): Promise<Guest> {
 		return BaseService.create<Guest>(this.ENDPOINT, guestData);
 	}
+
+	static async getGuestById(id: string): Promise<Guest> {
+		return BaseService.fetch<Guest>(`${this.ENDPOINT}/${id}`);
+	}
 }

@@ -30,6 +30,16 @@ export class BaseService<T> {
 		return snapshot.docs.map((doc) => doc.data() as T);
 	}
 
+	async getById(id: string): Promise<T | null> {
+		const docRef = this.firebaseService.firestore
+			.collection(this.collectionName)
+			.doc(id);
+
+		const doc = await docRef.get();
+
+		return doc.exists ? (doc.data() as T) : null;
+	}
+
 	async create(data: Partial<T>): Promise<string> {
 
 		const docRef = this.firebaseService.firestore

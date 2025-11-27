@@ -30,6 +30,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 		if (accessToken) {
 			rehydrateUser();
 		} else {
+
 			setIsLoading(false);
 		}
 	}, []);
