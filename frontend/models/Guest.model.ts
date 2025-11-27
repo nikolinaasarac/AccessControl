@@ -3,9 +3,11 @@ export interface Guest{
 	lastName: string;
 	phoneNumber: string;
 	company?: boolean;
-	companyName?: string;
+	companyName?: string | null;
 	accessDays?: string[];
 	anyTime?: boolean;
 	fromTime?: string | null;
-	toTime?: string;
+	toTime?: string | null;
+	createdAt?: Date | null;
+	creatorId?: string;
 }

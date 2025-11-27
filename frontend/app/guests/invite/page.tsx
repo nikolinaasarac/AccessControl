@@ -13,7 +13,8 @@ import {useAuth} from "@/context/auth-context";
 export default function InvitePage() {
 	const router = useRouter();
 	const {user} = useAuth();
-	console.log(user);
+	if(!user)
+		return null;
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
@@ -44,10 +45,10 @@ export default function InvitePage() {
 								firstName: values.firstName,
 								lastName: values.lastName,
 								phoneNumber: values.phoneNumber,
-								companyName: values.company ? values.companyName : "",
+								companyName: values.company ? values.companyName : null,
 								accessDays: values.accessDays,
 								fromTime: values.anyTime ? null : values.fromTime,
-								toTime: values.anyTime ? "" : values.toTime,
+								toTime: values.anyTime ? null : values.toTime
 							});
 
 							// reset forme ili redirect
