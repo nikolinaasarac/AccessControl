@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { FirebaseService } from '../firebase/firebase.service';
+import {Injectable} from '@nestjs/common';
+import {FirebaseService} from '../firebase/firebase.service';
 
 @Injectable()
 export class BaseService<T> {
@@ -8,6 +8,7 @@ export class BaseService<T> {
 		private readonly collectionName: string,
 	) {
 	}
+
 	async getAll(): Promise<T[]> {
 		const collectionRef = this.firebaseService.firestore.collection(this.collectionName);
 		const snapshot = await collectionRef.get();
@@ -15,11 +16,11 @@ export class BaseService<T> {
 	}
 
 	async create(data: Partial<T>): Promise<string> {
-		console.log(data);
+
 		const docRef = this.firebaseService.firestore
 			.collection(this.collectionName)
-			.doc(); // auto-ID
-		console.log(data);
+			.doc();
+
 		await docRef.set(data);
 		return docRef.id;
 	}
