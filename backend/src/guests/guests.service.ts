@@ -5,6 +5,7 @@ import {FirebaseService} from "../firebase/firebase.service";
 import {CreateGuestDto} from "./dto/create-guest.dto";
 import {firestore} from "firebase-admin";
 import {toPlainObject} from "../shared/toPlainObject";
+import {UpdateGuestDto} from "./dto/update-guest.dto";
 
 @Injectable()
 export class GuestsService extends BaseService<Guest> {
@@ -29,5 +30,9 @@ export class GuestsService extends BaseService<Guest> {
 
 	async getGuestById(id: string): Promise<Guest | null> {
 		return await super.getById(id);
+	}
+
+	async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
+		return super.update(id, toPlainObject(updateGuestDto));
 	}
 }
