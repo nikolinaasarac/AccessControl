@@ -56,4 +56,12 @@ export class BaseService<T> {
 		await docRef.set(data, { merge: true });
 	}
 
+	async deleteById(id: string): Promise<void> {
+		const docRef = this.firebaseService.firestore
+			.collection(this.collectionName)
+			.doc(id);
+
+		await docRef.delete();
+	}
+
 }
