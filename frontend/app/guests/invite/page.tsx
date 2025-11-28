@@ -1,11 +1,12 @@
 "use client"
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import {useRouter} from "next/navigation";
+import {Button} from "@/components/ui/button";
 import {useAuth} from "@/context/auth-context";
 import GuestsService from "@/lib/service/guests.service";
 import GuestForm from "@/components/GuestForm";
 import {toast} from "sonner";
+import {GuestStatus} from "@/shared/enum/guest-status.enum";
 
 export default function InvitePage() {
 	const router = useRouter();
