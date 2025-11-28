@@ -27,10 +27,7 @@ export class BaseService<T> {
 		}
 
 		const snapshot = await collectionRef.get();
-		return snapshot.docs.map(doc => ({
-			id: doc.id,
-			...doc.data()
-		})) as T[];
+		return snapshot.docs.map((doc) => doc.data() as T);
 	}
 
 	async getById(id: string): Promise<T | null> {
@@ -49,8 +46,16 @@ export class BaseService<T> {
 			.collection(this.collectionName)
 			.doc();
 
-		await docRef.set(data);
+		await docRef.set({id: docRef.id, ...data});
 		return docRef.id;
+	}
+
+	async update(id: string, data: Partial<T>): Promise<void> {
+		const docRef = this.firebaseService.firestore
+			.collection(this.collectionName)
+			.doc(id);
+
+		await docRef.set(data, { merge: true });
 	}
 
 }

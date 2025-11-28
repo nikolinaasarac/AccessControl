@@ -29,7 +29,7 @@ export function GuestItem({id, firstName, lastName, companyName }: Props) {
 
 				{companyName && (
 					<span className="text-sm text-gray-500">
-						{companyName}
+						Company: {companyName}
 					</span>
 				)}
 			</div>
