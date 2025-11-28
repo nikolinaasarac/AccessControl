@@ -27,7 +27,10 @@ export class BaseService<T> {
 		}
 
 		const snapshot = await collectionRef.get();
-		return snapshot.docs.map((doc) => doc.data() as T);
+		return snapshot.docs.map(doc => ({
+			id: doc.id,
+			...doc.data()
+		})) as T[];
 	}
 
 	async getById(id: string): Promise<T | null> {

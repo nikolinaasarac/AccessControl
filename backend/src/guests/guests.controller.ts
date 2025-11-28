@@ -1,18 +1,13 @@
 import {
-	BadRequestException,
 	Body,
 	Controller,
-	Get,
-	InternalServerErrorException, Param,
-	Post, Query,
-	UseGuards
+	Get, Param,
+	Post
+
 } from '@nestjs/common';
 import {GuestsService} from "./guests.service";
 import {CreateGuestDto} from "./dto/create-guest.dto";
-import {toPlainObject} from "../shared/toPlainObject";
-import {firestore} from "firebase-admin";
 import {CurrentUser} from "../shared/decorators/current-user.decorator";
-import {FirebaseAuthGuard} from "../firebase/guard/firebase.guard";
 
 @Controller('guests')
 export class GuestsController {

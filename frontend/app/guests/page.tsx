@@ -61,6 +61,7 @@ export default function Guests(){
 				<ul className="space-y-2">
 					{guests.map((guest) => (
 						<GuestItem
+							id={guest.id}
 							firstName={guest.firstName}
 							lastName={guest.lastName}
 							companyName={guest.companyName}
