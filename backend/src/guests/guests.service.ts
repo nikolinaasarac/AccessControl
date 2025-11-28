@@ -35,4 +35,8 @@ export class GuestsService extends BaseService<Guest> {
 	async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
 		return super.update(id, toPlainObject(updateGuestDto));
 	}
+
+	async deleteGuest(id: string): Promise<void> {
+		return super.deleteById(id);
+	}
 }

@@ -1,6 +1,6 @@
 import {
 	Body,
-	Controller,
+	Controller, Delete,
 	Get, Param, Patch,
 	Post
 
@@ -38,5 +38,10 @@ export class GuestsController {
 	@Patch(':id')
 	async updateGuest(@Param('id') id: string, @Body() updateGuestDto: UpdateGuestDto) {
 		return await this.guestsService.updateGuest(id, updateGuestDto);
+	}
+
+	@Delete(':id')
+	async deleteGuest(@Param('id') id: string) {
+		return await this.guestsService.deleteGuest(id);
 	}
 }
