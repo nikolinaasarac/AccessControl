@@ -8,6 +8,7 @@ import {useAuth} from "@/context/auth-context";
 import {Button} from "@/components/ui/button";
 import {UpdateGuestDto} from "@/dto/update-guest.dto";
 import {toast} from "sonner";
+import DeleteGuestAlert from "@/components/DeleteGuestAlert";
 
 export default function EditGuestPage() {
 	const router = useRouter();
@@ -51,11 +52,23 @@ export default function EditGuestPage() {
 				fromTime: values.anyTime ? null : values.fromTime,
 				toTime: values.anyTime ? null : values.toTime
 			});
-			toast.success("Guest successfully created!");
+			toast.success("Guest successfully updated!");
 			router.back();
 		} catch (error) {
 			console.error("Failed to update guest", error);
 			toast.error("Failed to update guest. Please try again.");
+		}
+	}
+
+	const handleDelete = async () => {
+		try {
+			 await GuestsService.deleteGuest(guestId);
+			toast.success("Guest successfully deleted!");
+			router.back();
+		}
+		catch (error) {
+			console.error("Failed to delete guest", error);
+			toast.error("Failed to delete guest. Please try again.");
 		}
 	}
 
@@ -67,9 +80,7 @@ export default function EditGuestPage() {
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
 					<div className="flex gap-1">
-					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
-						Delete Guest
-					</Button>
+					<DeleteGuestAlert handleDelete={handleDelete} />
 					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
 						Back
 					</Button>
