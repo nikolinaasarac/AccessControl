@@ -1,3 +1,5 @@
+import {GuestStatus} from "@/shared/enum/guest-status.enum";
+
 export interface Guest{
 	id?: string;
 	firstName: string;
@@ -11,4 +13,5 @@ export interface Guest{
 	toTime?: string | null;
 	createdAt?: Date | null;
 	creatorId?: string;
+	status?: GuestStatus;
 }

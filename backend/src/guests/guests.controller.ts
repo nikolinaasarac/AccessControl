@@ -9,6 +9,7 @@ import {GuestsService} from "./guests.service";
 import {CreateGuestDto} from "./dto/create-guest.dto";
 import {CurrentUser} from "../shared/decorators/current-user.decorator";
 import {UpdateGuestDto} from "./dto/update-guest.dto";
+import {UpdateGuestStatusDto} from "./dto/update-guest-status.dto";
 
 @Controller('guests')
 export class GuestsController {
@@ -43,5 +44,10 @@ export class GuestsController {
 	@Delete(':id')
 	async deleteGuest(@Param('id') id: string) {
 		return await this.guestsService.deleteGuest(id);
+	}
+
+	@Patch(':id/updateStatus')
+	async updateGuestStatus(@Param('id') id: string, @Body() status: UpdateGuestStatusDto) {
+		return await this.guestsService.updateGuestStatus(id, status);
 	}
 }

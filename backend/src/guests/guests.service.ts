@@ -6,6 +6,8 @@ import {CreateGuestDto} from "./dto/create-guest.dto";
 import {firestore} from "firebase-admin";
 import {toPlainObject} from "../shared/toPlainObject";
 import {UpdateGuestDto} from "./dto/update-guest.dto";
+import {GuestStatus} from "../shared/enum/guest-status.enum";
+import {UpdateGuestStatusDto} from "./dto/update-guest-status.dto";
 
 @Injectable()
 export class GuestsService extends BaseService<Guest> {
@@ -17,6 +19,7 @@ export class GuestsService extends BaseService<Guest> {
 
 		const guestData = {
 			...createGuestDto,
+			status: GuestStatus.Inactive,
 			creatorId: uid,
 			createdAt: firestore.Timestamp.now(),
 		}
@@ -34,6 +37,10 @@ export class GuestsService extends BaseService<Guest> {
 
 	async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
 		return super.update(id, toPlainObject(updateGuestDto));
+	}
+
+	async updateGuestStatus(id: string, status: UpdateGuestStatusDto): Promise<void> {
+		return super.update(id, toPlainObject(status));
 	}
 
 	async deleteGuest(id: string): Promise<void> {

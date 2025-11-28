@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
 import GuestForm from "@/components/GuestForm";
 import GuestsService from "@/lib/service/guests.service";
@@ -9,6 +9,8 @@ import {Button} from "@/components/ui/button";
 import {UpdateGuestDto} from "@/dto/update-guest.dto";
 import {toast} from "sonner";
 import DeleteGuestAlert from "@/components/DeleteGuestAlert";
+import {GuestStatusSelect} from "@/components/GuestStatus";
+import {GuestStatus} from "@/shared/enum/guest-status.enum";
 
 export default function EditGuestPage() {
 	const router = useRouter();
@@ -20,6 +22,7 @@ export default function EditGuestPage() {
 
 	if (!guestId) return null;
 	const [initialValues, setInitialValues] = useState<UpdateGuestDto | null>(null);
+	const [status, setStatus] = useState<GuestStatus>(GuestStatus.Inactive);
 
 	useEffect(() => {
 		const load = async () => {
@@ -36,6 +39,7 @@ export default function EditGuestPage() {
 				fromTime: g.fromTime ?? "",
 				toTime: g.toTime ?? "",
 			});
+			setStatus(g.status || GuestStatus.Inactive);
 		};
 		load();
 	}, [id]);
@@ -72,6 +76,20 @@ export default function EditGuestPage() {
 		}
 	}
 
+	const handleChangeGuestStatus = async (value: GuestStatus) => {
+		setStatus(value); // odmah update UI-a
+
+		try {
+			//await GuestsService.updateGuestStatus(guestId, value); // API poziv
+			toast.success("Guest status updated!");
+		} catch (error) {
+			console.error("Failed to update guest status", error);
+			toast.error("Failed to update guest status. Please try again.");
+			// opcionalno: rollback statusa ako želiš
+			// setStatus(prevStatus);
+		}
+	};
+
 		if (!initialValues) return <p>Loading...</p>;
 
 		return (<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
@@ -80,6 +98,7 @@ export default function EditGuestPage() {
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
 					<div className="flex gap-1">
+						<GuestStatusSelect value={status} onChange={setStatus} />
 					<DeleteGuestAlert handleDelete={handleDelete} />
 					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
 						Back
