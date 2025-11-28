@@ -66,6 +66,7 @@ export default function Guests(){
 							firstName={guest.firstName}
 							lastName={guest.lastName}
 							companyName={guest.companyName}
+							status={guest.status}
 						/>
 					))}
 				</ul>

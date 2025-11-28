@@ -1,3 +1,5 @@
+import {GuestStatus} from "@/shared/enum/guest-status.enum";
+
 export interface UpdateGuestDto {
 	firstName?: string;
 	lastName?: string;
@@ -8,4 +10,5 @@ export interface UpdateGuestDto {
 	anyTime?: boolean;
 	fromTime?: string | null;
 	toTime?: string | null;
+	status?: GuestStatus;
 }
