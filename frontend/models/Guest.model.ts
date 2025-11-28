@@ -13,5 +13,5 @@ export interface Guest{
 	toTime?: string | null;
 	createdAt?: Date | null;
 	creatorId?: string;
-	status?: GuestStatus;
+	status: GuestStatus;
 }

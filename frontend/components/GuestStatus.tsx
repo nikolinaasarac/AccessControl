@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
 	Select,
@@ -15,11 +17,24 @@ interface GuestStatusSelectProps {
 	onChange: (value: GuestStatus) => void;
 }
 
-export function GuestStatusSelect({ value, onChange }: GuestStatusSelectProps) {
+const getTriggerClasses = (status: GuestStatus) => {
+	switch (status) {
+		case GuestStatus.Active:
+			return "bg-green-100 text-green-800";
+		case GuestStatus.Inactive:
+			return "bg-yellow-100 text-yellow-800";
+		case GuestStatus.Suspended:
+			return "bg-red-100 text-red-800";
+		default:
+			return "";
+	}
+};
+
+export function GuestStatusSelect({value, onChange}: GuestStatusSelectProps) {
 	return (
 		<Select value={value} onValueChange={(val) => onChange(val as GuestStatus)}>
-			<SelectTrigger>
-				<SelectValue placeholder="Select status" />
+			<SelectTrigger className={`${getTriggerClasses(value)}`}>
+				<SelectValue placeholder="Select status"/>
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>

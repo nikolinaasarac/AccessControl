@@ -11,6 +11,7 @@ import {toast} from "sonner";
 import DeleteGuestAlert from "@/components/DeleteGuestAlert";
 import {GuestStatusSelect} from "@/components/GuestStatus";
 import {GuestStatus} from "@/shared/enum/guest-status.enum";
+import {ConfirmStatusDialog} from "@/components/ConfirmStatusDialog";
 
 export default function EditGuestPage() {
 	const router = useRouter();
@@ -23,6 +24,30 @@ export default function EditGuestPage() {
 	if (!guestId) return null;
 	const [initialValues, setInitialValues] = useState<UpdateGuestDto | null>(null);
 	const [status, setStatus] = useState<GuestStatus>(GuestStatus.Inactive);
+	const [showConfirm, setShowConfirm] = useState(false);
+	const [pendingStatus, setPendingStatus] = useState<GuestStatus | null>(null);
+
+	const handleStatusChange = (newStatus: GuestStatus) => {
+		if (newStatus === status) return;
+		setPendingStatus(newStatus);
+		setShowConfirm(true);
+	};
+
+	const confirmStatusChange = async () => {
+		if (!pendingStatus) return;
+
+		try {
+			await GuestsService.updateGuestStatus(guestId, pendingStatus);
+			setStatus(pendingStatus);
+			toast.success("Guest status updated!");
+		} catch (err) {
+			console.error(err);
+			toast.error("Failed to update status. Please try again.");
+		} finally {
+			setPendingStatus(null);
+			setShowConfirm(false);
+		}
+	};
 
 	useEffect(() => {
 		const load = async () => {
@@ -98,7 +123,14 @@ export default function EditGuestPage() {
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
 					<div className="flex gap-1">
-						<GuestStatusSelect value={status} onChange={setStatus} />
+						<GuestStatusSelect value={status} onChange={handleStatusChange} />
+
+						<ConfirmStatusDialog
+							open={showConfirm}
+							status={pendingStatus}
+							onConfirm={confirmStatusChange}
+							onCancel={() => setShowConfirm(false)}
+						/>
 					<DeleteGuestAlert handleDelete={handleDelete} />
 					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
 						Back
