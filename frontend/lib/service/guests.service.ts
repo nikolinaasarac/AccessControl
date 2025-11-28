@@ -21,7 +21,12 @@ export default class GuestsService {
 	static async getGuestById(id: string): Promise<Guest> {
 		return BaseService.fetch<Guest>(`${this.ENDPOINT}/${id}`);
 	}
+
 	static async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
 		return BaseService.update(`${this.ENDPOINT}/${id}`, updateGuestDto);
+	}
+
+	static async deleteGuest(id: string): Promise<void> {
+		return BaseService.delete(`${this.ENDPOINT}/${id}`);
 	}
 }
