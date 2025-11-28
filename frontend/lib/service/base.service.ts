@@ -14,8 +14,8 @@ export default class BaseService {
 		return ApiClient.post(endpoint, body, queryParams).then((response) => response.data);
 	}
 
-	static async update<T>(endpoint: string, body: any, queryParams: QueryParams = {}): Promise<T> {
-		return ApiClient.put(endpoint, body, queryParams).then((response) => response.data);
+	static async update<T>(endpoint: string, body: T | any, queryParams: QueryParams = {}): Promise<T> {
+		return ApiClient.patch(endpoint, body, queryParams).then((response) => response.data);
 	}
 
 	static async delete<T>(endpoint: string): Promise<T> {

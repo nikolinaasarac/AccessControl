@@ -59,8 +59,9 @@ export default function Guests(){
 
 			<div className="bg-white rounded-lg shadow p-4 min-h-[400px]">
 				<ul className="space-y-2">
-					{guests.map((guest) => (
+					{guests.map((guest, index) => (
 						<GuestItem
+							key={index}
 							id={guest.id}
 							firstName={guest.firstName}
 							lastName={guest.lastName}

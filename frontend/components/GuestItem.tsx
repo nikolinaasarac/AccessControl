@@ -1,3 +1,5 @@
+"use client"
+
 import {useRouter} from "next/navigation";
 
 type Props = {
@@ -12,7 +14,7 @@ export function GuestItem({id, firstName, lastName, companyName }: Props) {
 	const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
 
 	const handleClick = () => {
-		router.push(`/guests/invite/${id}`);
+		router.push(`/guests/${id}`);
 	};
 
 	return (

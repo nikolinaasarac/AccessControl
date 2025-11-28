@@ -28,4 +28,10 @@ export default class ApiClient {
 			params: queryParams,
 		});
 	}
+
+	static async patch(endpoint: string, body: any, queryParams: any = {}): Promise<AxiosResponse> {
+		return axiosInstance.patch(endpoint, body,  {
+			params: queryParams,
+		});
+	}
 }
