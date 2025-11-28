@@ -3,6 +3,7 @@ import BaseService from "@/lib/service/base.service";
 import {Guest} from "@/models/Guest.model";
 import {UpdateGuestDto} from "@/dto/update-guest.dto";
 import {GuestStatus} from "@/shared/enum/guest-status.enum";
+import {CreateGuestDto} from "@/dto/create-guest.dto";
 
 export default class GuestsService {
 	static readonly ENDPOINT = '/guests';
@@ -15,7 +16,7 @@ export default class GuestsService {
 		return BaseService.fetchList<Guest[]>(this.ENDPOINT + '/me');
 	}
 
-	static async createGuest(guestData: Guest): Promise<Guest> {
+	static async createGuest(guestData: CreateGuestDto): Promise<Guest> {
 		return BaseService.create<Guest>(this.ENDPOINT, guestData);
 	}
 
