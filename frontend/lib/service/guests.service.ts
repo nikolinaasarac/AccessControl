@@ -1,8 +1,9 @@
 import QueryParams from "@/models/QueryParams.model";
 import BaseService from "@/lib/service/base.service";
 import {Guest} from "@/models/Guest.model";
+import {UpdateGuestDto} from "@/dto/update-guest.dto";
 
-export default class UserService {
+export default class GuestsService {
 	static readonly ENDPOINT = '/guests';
 
 	static async getGuests(queryParams: QueryParams = {}) {
@@ -19,5 +20,8 @@ export default class UserService {
 
 	static async getGuestById(id: string): Promise<Guest> {
 		return BaseService.fetch<Guest>(`${this.ENDPOINT}/${id}`);
+	}
+	static async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
+		return BaseService.update(`${this.ENDPOINT}/${id}`, updateGuestDto);
 	}
 }

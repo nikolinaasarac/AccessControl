@@ -36,12 +36,10 @@ export class BaseService<T> {
 			.doc(id);
 
 		const doc = await docRef.get();
-
 		return doc.exists ? (doc.data() as T) : null;
 	}
 
 	async create(data: Partial<T>): Promise<string> {
-
 		const docRef = this.firebaseService.firestore
 			.collection(this.collectionName)
 			.doc();
