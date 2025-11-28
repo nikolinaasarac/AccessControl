@@ -1,10 +1,10 @@
-import {IsArray, IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator";
-import {firestore} from "firebase-admin";
-import Firestore = firestore.Firestore;
-import {TransformFirestoreTimestamp} from "../../shared/decorators/transform-timestamp.decorator";
-import {Type} from "class-transformer";
+import {IsArray, IsNotEmpty, IsOptional, IsString} from "class-validator";
 
 export class Guest {
+	@IsString()
+	@IsNotEmpty()
+	id: string;
+
 	@IsString()
 	@IsNotEmpty()
 	firstName: string;
