@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {BadRequestException, Injectable} from '@nestjs/common';
 import {BaseService} from "../base/base.service";
 import {Guest} from "./entities/Guest";
 import {FirebaseService} from "../firebase/firebase.service";
@@ -16,6 +16,15 @@ export class GuestsService extends BaseService<Guest> {
 	}
 
 	async createGuest(uid: string, createGuestDto: CreateGuestDto): Promise<string> {
+		const existingGuests = await this.query({
+			field: 'phoneNumber',
+			operator: '==',
+			value: createGuestDto.phoneNumber,
+		});
+
+		if (existingGuests.length > 0) {
+			throw new BadRequestException("Guest with this phone number already exists.");
+		}
 
 		const guestData = {
 			...createGuestDto,
