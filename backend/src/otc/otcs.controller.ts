@@ -14,9 +14,9 @@ export class OtcsController {
 	constructor(private readonly otcsService: OtcsService) {
 	}
 
-	@Get() // /otcs
-	async getAllOtcs() {
-		return await this.otcsService.getAll();
+	@Get('/myOtcs')
+	async getMyOtcs(@CurrentUser() uid: string) {
+		return await this.otcsService.getMyOtcs(uid);
 	}
 
 	@Post()
