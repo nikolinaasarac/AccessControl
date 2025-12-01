@@ -58,7 +58,7 @@ export function SelectDay({value, onChange}: Props) {
 				</Button>
 			</PopoverTrigger>
 
-			<PopoverContent className="w-56">
+			<PopoverContent className="min-w-30 overflow-x-auto">
 				<div className="flex flex-col gap-2">
 					{value.length > 0 && (
 						<div className="flex flex-wrap gap-2 mb-2">

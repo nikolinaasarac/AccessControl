@@ -35,32 +35,31 @@ export function GuestItem({id, firstName, lastName, companyName, status}: Props)
 	return (
 		<li
 			onClick={handleClick}
-			className="flex items-center justify-between gap-4 p-4 bg-white rounded-xl shadow-sm border hover:shadow-md transition cursor-pointer"
+			className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 p-3 sm:p-4 bg-white rounded-xl shadow-sm border hover:shadow-md transition cursor-pointer"
 		>
-			<div className="flex items-center gap-4">
-				<div
-					className="w-12 h-12 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full text-lg">
+			<div className="flex items-center gap-3 sm:gap-4">
+				<div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full text-lg sm:text-xl">
 					{initials}
 				</div>
 
-				<div className="flex flex-col">
-          <span className="text-base font-semibold text-gray-900">
-            {firstName} {lastName}
-          </span>
+				<div className="flex flex-col min-w-0">
+			<span className="text-sm sm:text-base font-semibold text-gray-900 truncate">
+				{firstName} {lastName}
+			</span>
 
 					{companyName && (
-						<span className="text-sm text-gray-500">
-              Company: {companyName}
-            </span>
+						<span className="text-xs sm:text-sm text-gray-500 truncate">
+					Company: {companyName}
+				</span>
 					)}
 				</div>
 			</div>
 
 			<span
-				className={`px-3 py-1 rounded-full text-sm font-semibold ${getStatusClasses(status)}`}
+				className={`mt-2 sm:mt-0 px-2 py-1 text-xs sm:text-sm rounded-full font-semibold whitespace-nowrap ${getStatusClasses(status)}`}
 			>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
+		{status.charAt(0).toUpperCase() + status.slice(1)}
+	</span>
 		</li>
 	);
 }

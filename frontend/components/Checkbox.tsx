@@ -1,7 +1,7 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import {Checkbox} from "@/components/ui/checkbox";
+import {Label} from "@/components/ui/label";
 
 type Props = {
 	id: string;
@@ -11,7 +11,7 @@ type Props = {
 	message?: string;
 };
 
-export function MyCheckbox({ id, checked, onChange, message, label }: Props) {
+export function MyCheckbox({id, checked, onChange, message, label}: Props) {
 	return (
 		<Label className="hover:bg-accent/50 flex items-start gap-3 rounded-lg border p-3
       has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 my-2"
