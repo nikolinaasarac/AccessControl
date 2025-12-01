@@ -19,8 +19,8 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 		>
 			{({values, setFieldValue, errors, touched, isSubmitting}) => (
 				<Form className="w-full flex flex-col gap-0.5">
-					<div className="flex items-center justify-between mb-6 gap-4">
-						<div className="flex-1">
+					<div className="flex flex-wrap items-center justify-between mb-6 gap-4">
+						<div className="flex-1 min-w-30">
 							<label className="block mb-1">First Name</label>
 							<Field
 								as={Input}
@@ -35,7 +35,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 							</div>
 						</div>
 
-						<div className="flex-1">
+						<div className="flex-1 min-w-30">
 							<label className="block mb-1">Last Name</label>
 							<Field
 								as={Input}
@@ -55,7 +55,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 						</div>
 					</div>
 
-					<div className="flex items-center justify-between mb-6 w-full gap-4">
+					<div className="flex flex-wrap items-center justify-between mb-6 w-full gap-4">
 						<div className="flex-1 h-[60px]">
 							<label className="block mb-2">Company?</label>
 							<Switch
@@ -66,7 +66,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 							/>
 						</div>
 
-						<div className="h-[60px] flex-1">
+						<div className="h-[60px] flex-1 min-w-30">
 							{values.company && (
 								<label className="block h-full">
 									Company Name
@@ -90,13 +90,13 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 						</div>
 					</div>
 
-					<div className="flex items-center justify-between mb-6 gap-4">
+					<div className="flex flex-wrap items-center justify-between mb-6 gap-4">
 						<div className="flex-1">
 							<label className="block mb-1">Phone Number</label>
 							<Field
 								as={Input}
 								name="phoneNumber"
-								className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
+								className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2  min-w-30
           								${errors.phoneNumber && touched.phoneNumber
 									? "border-red-500 focus:ring-red-400"
 									: "border-gray-300 focus:ring-blue-400"}`}
@@ -111,7 +111,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 						</div>
 
 						<div className="flex-1">
-							<label className="block mb-1">Access Days</label>
+							<label className="block mb-1 min-w-30">Access Days</label>
 							<SelectDay
 								value={values.accessDays}
 								onChange={(days) => setFieldValue("accessDays", days)}
@@ -134,8 +134,8 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 						message={"Guest can access at any time"}
 					/>
 
-					<div className="flex items-center justify-between mb-6 gap-2">
-						<div className="flex-1">
+					<div className="flex flex-wrap items-center justify-between mb-6 gap-2">
+						<div className="flex-1 min-w-30">
 							<label>
 								From:
 								<input
@@ -159,7 +159,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 							</label>
 						</div>
 
-						<div className="flex-1">
+						<div className="flex-1 min-w-30">
 							<label>
 								To:
 								<input

@@ -43,6 +43,7 @@ export default function InvitePage() {
 			});
 			resetForm();
 			toast.success("Guest successfully created!");
+			router.back();
 		} catch (error: unknown) {
 			const message =
 				typeof error === "object" && error !== null && "message" in error

@@ -112,9 +112,9 @@ export default function EditGuestPage() {
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
-					<div className="flex gap-1">
+					<div className="flex flex-wrap gap-2 justify-end">
 						<GuestStatusSelect value={status} onChange={handleStatusChange} />
-						<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => setShowDelete(true)}>
+						<Button className="px-4 py-2 hover:cursor-pointer bg-red-700 hover:bg-red-800" onClick={() => setShowDelete(true)}>
 							Delete Guest
 						</Button>
 						<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
