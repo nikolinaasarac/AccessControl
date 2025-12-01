@@ -13,6 +13,7 @@ export default function InvitePage() {
 	if (!user)
 		return null;
 
+	const daysOrder = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 	const initialValues = {
 		firstName: "",
@@ -28,20 +29,26 @@ export default function InvitePage() {
 
 	const handleSubmit = async (values: any, {setSubmitting, resetForm}: any) => {
 		try {
+			const sortedAccessDays = [...values.accessDays].sort(
+				(a, b) => daysOrder.indexOf(a) - daysOrder.indexOf(b)
+			);
 			await GuestsService.createGuest({
 				firstName: values.firstName,
 				lastName: values.lastName,
 				phoneNumber: values.phoneNumber,
 				companyName: values.company ? values.companyName : null,
-				accessDays: values.accessDays,
+				accessDays: sortedAccessDays,
 				fromTime: values.anyTime ? null : values.fromTime,
 				toTime: values.anyTime ? null : values.toTime
 			});
 			resetForm();
 			toast.success("Guest successfully created!");
-		} catch (error) {
-			console.error("Failed to create guest", error);
-			toast.error("Failed to create guest. Please try again.");
+		} catch (error: unknown) {
+			const message =
+				typeof error === "object" && error !== null && "message" in error
+					? (error as any).message
+					: "Unknown error occurred";
+			toast.error("Failed to create guest. " + message);
 		} finally {
 			setSubmitting(false);
 		}
