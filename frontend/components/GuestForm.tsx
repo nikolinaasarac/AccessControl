@@ -7,6 +7,7 @@ import {Input} from "@/components/ui/input";
 import {Switch} from "@/components/ui/switch";
 import {SelectDay} from "@/components/SelectDay";
 import {LoadingButton} from "@/components/LoadingButton";
+import {MyCheckbox} from "@/components/Checkbox";
 
 export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 	return (
@@ -125,18 +126,13 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 						</div>
 					</div>
 
-					<label className="block mb-1">Access Time</label>
-					<div className="flex-1">
-						<div className="flex items-center gap-3">
-							<input
-								type="checkbox"
-								checked={values.anyTime}
-								onChange={() => setFieldValue("anyTime", !values.anyTime)}
-								className="hover:cursor-pointer"
-							/>
-							<label>Any Time</label>
-						</div>
-					</div>
+					<MyCheckbox
+						id={"anyTime"}
+						checked={values.anyTime}
+						onChange={(val) => setFieldValue("anyTime", val)}
+						label={"Any time"}
+						message={"Guest can access at any time"}
+					/>
 
 					<div className="flex items-center justify-between mb-6 gap-2">
 						<div className="flex-1">

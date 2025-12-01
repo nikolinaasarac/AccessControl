@@ -34,9 +34,15 @@ export function SelectDay({value, onChange}: Props) {
 		onChange(value.filter(d => d !== dayValue));
 	}
 
+	const daysOrder = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+
+	const sortedValue = [...value].sort(
+		(a, b) => daysOrder.indexOf(a) - daysOrder.indexOf(b)
+	);
+
 	const selectedLabels =
-		value.length > 0
-			? value.map(val => DAYS.find(d => d.value === val)?.label).join(", ")
+		sortedValue.length > 0
+			? sortedValue.map(val => DAYS.find(d => d.value === val)?.label).join(", ")
 			: "Select Access Days...";
 
 	return (
@@ -54,21 +60,14 @@ export function SelectDay({value, onChange}: Props) {
 
 			<PopoverContent className="w-56">
 				<div className="flex flex-col gap-2">
-
 					{value.length > 0 && (
 						<div className="flex flex-wrap gap-2 mb-2">
-							{value.map(day => {
+							{sortedValue.map(day => {
 								const dayObj = DAYS.find(d => d.value === day);
 								return (
-									<div
-										key={day}
-										className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center gap-1 text-sm"
-									>
+									<div key={day} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center gap-1 text-sm">
 										{dayObj?.label}
-										<button
-											className="font-bold hover:text-red-500"
-											onClick={() => removeDay(day)}
-										>
+										<button className="font-bold hover:text-red-500" onClick={() => removeDay(day)}>
 											x
 										</button>
 									</div>
@@ -76,7 +75,6 @@ export function SelectDay({value, onChange}: Props) {
 							})}
 						</div>
 					)}
-
 					{available.map(day => (
 						<button
 							key={day.value}
