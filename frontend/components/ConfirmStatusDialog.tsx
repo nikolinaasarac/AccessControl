@@ -20,7 +20,7 @@ interface ConfirmStatusDialogProps {
 	onCancel: () => void;
 }
 
-export function ConfirmStatusDialog({ open, status, onConfirm, onCancel }: ConfirmStatusDialogProps) {
+export function ConfirmStatusDialog({open, status, onConfirm, onCancel}: ConfirmStatusDialogProps) {
 	return (
 		<AlertDialog open={open} onOpenChange={onCancel}>
 			<AlertDialogContent>
@@ -31,8 +31,9 @@ export function ConfirmStatusDialog({ open, status, onConfirm, onCancel }: Confi
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
-					<AlertDialogAction onClick={onConfirm}>Confirm</AlertDialogAction>
+					<AlertDialogCancel className="hover:cursor-pointer" onClick={onCancel}>Cancel</AlertDialogCancel>
+					<AlertDialogAction className="bg-green-600 hover:bg-green-800 hover:cursor-pointer"
+									   onClick={onConfirm}>Confirm</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

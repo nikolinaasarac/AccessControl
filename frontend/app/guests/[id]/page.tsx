@@ -8,10 +8,10 @@ import {useAuth} from "@/context/auth-context";
 import {Button} from "@/components/ui/button";
 import {UpdateGuestDto} from "@/dto/update-guest.dto";
 import {toast} from "sonner";
-import DeleteGuestAlert from "@/components/DeleteGuestAlert";
 import {GuestStatusSelect} from "@/components/GuestStatus";
 import {GuestStatus} from "@/shared/enum/guest-status.enum";
-import {ConfirmStatusDialog} from "@/components/ConfirmStatusDialog";
+import {EditGuestSkeleton} from "@/components/skeleton/EditGuestSkeleton";
+import {ConfirmDialog} from "@/components/ConfirmDialog";
 
 export default function EditGuestPage() {
 	const router = useRouter();
@@ -23,8 +23,10 @@ export default function EditGuestPage() {
 
 	if (!guestId) return null;
 	const [initialValues, setInitialValues] = useState<UpdateGuestDto | null>(null);
+	const [loading, setLoading] = useState(true);
 	const [status, setStatus] = useState<GuestStatus>(GuestStatus.Inactive);
 	const [showConfirm, setShowConfirm] = useState(false);
+	const [showDelete, setShowDelete] = useState(false);
 	const [pendingStatus, setPendingStatus] = useState<GuestStatus | null>(null);
 
 	const handleStatusChange = (newStatus: GuestStatus) => {
@@ -65,6 +67,7 @@ export default function EditGuestPage() {
 				toTime: g.toTime ?? "",
 			});
 			setStatus(g.status || GuestStatus.Inactive);
+			setLoading(false);
 		};
 		load();
 	}, [id]);
@@ -91,53 +94,63 @@ export default function EditGuestPage() {
 
 	const handleDelete = async () => {
 		try {
-			 await GuestsService.deleteGuest(guestId);
+			await GuestsService.deleteGuest(guestId);
 			toast.success("Guest successfully deleted!");
 			router.back();
-		}
-		catch (error) {
+		} catch (error) {
 			console.error("Failed to delete guest", error);
 			toast.error("Failed to delete guest. Please try again.");
 		}
 	}
 
-	const handleChangeGuestStatus = async (value: GuestStatus) => {
-		setStatus(value); // odmah update UI-a
+	if (loading) {
+		return <EditGuestSkeleton />
+	}
 
-		try {
-			//await GuestsService.updateGuestStatus(guestId, value); // API poziv
-			toast.success("Guest status updated!");
-		} catch (error) {
-			console.error("Failed to update guest status", error);
-			toast.error("Failed to update guest status. Please try again.");
-			// opcionalno: rollback statusa ako želiš
-			// setStatus(prevStatus);
-		}
-	};
-
-		if (!initialValues) return <p>Loading...</p>;
-
-		return (<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
-			<div
-				className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+	return (
+		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
+			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
 					<div className="flex gap-1">
 						<GuestStatusSelect value={status} onChange={handleStatusChange} />
-
-						<ConfirmStatusDialog
-							open={showConfirm}
-							status={pendingStatus}
-							onConfirm={confirmStatusChange}
-							onCancel={() => setShowConfirm(false)}
-						/>
-					<DeleteGuestAlert handleDelete={handleDelete} />
-					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
-						Back
-					</Button>
+						<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => setShowDelete(true)}>
+							Delete Guest
+						</Button>
+						<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
+							Back
+						</Button>
 					</div>
 				</div>
-				<GuestForm initialValues={initialValues} onSubmit={handleSubmit} isEdit={true}/>
+
+				<GuestForm initialValues={initialValues} onSubmit={handleSubmit} isEdit={true} />
+
+				<ConfirmDialog
+					open={showConfirm}
+					title="Confirm Status Change"
+					confirmText="Confirm"
+					cancelText="Cancel"
+					confirmColor="bg-green-600 hover:bg-green-700"
+					description={
+						<>
+							Do you really want to change the status to <strong>{pendingStatus}</strong>?
+						</>
+					}
+					onConfirm={confirmStatusChange}
+					onCancel={() => setShowConfirm(false)}
+				/>
+
+				<ConfirmDialog
+					open={showDelete}
+					title="Delete Guest"
+					description="This action cannot be undone. This will permanently delete this guest."
+					confirmText="Delete"
+					cancelText="Cancel"
+					confirmColor="bg-red-600 hover:bg-red-700"
+					onConfirm={handleDelete}
+					onCancel={() => setShowDelete(false)}
+				/>
 			</div>
-		</div>);
+		</div>
+	);
 }
