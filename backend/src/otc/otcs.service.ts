@@ -6,11 +6,16 @@ import {toPlainObject} from "../shared/toPlainObject";
 import {Otc} from "./entities/otc";
 import {CreateOtcDto} from "./dto/create-otc.dto";
 import {GuestStatus} from "../shared/enum/guest-status.enum";
+import {Guest} from "../guests/entities/Guest";
 
 @Injectable()
 export class OtcsService extends BaseService<Otc> {
 	constructor(firebaseService: FirebaseService) {
 		super(firebaseService, 'otcs');
+	}
+
+	async getMyOtcs(uid: string): Promise<Otc[]> {
+		return await super.query({field: "creatorId", operator: "==", value: uid});
 	}
 
 	async createOtc(uid: string, createOtcDto: CreateOtcDto): Promise<void> {
