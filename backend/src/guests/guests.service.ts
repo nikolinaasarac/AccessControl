@@ -15,7 +15,7 @@ export class GuestsService extends BaseService<Guest> {
 		super(firebaseService, 'guests');
 	}
 
-	async createGuest(uid: string, createGuestDto: CreateGuestDto): Promise<string> {
+	async createGuest(uid: string, createGuestDto: CreateGuestDto): Promise<void> {
 		const existingGuests = await this.query({
 			field: 'phoneNumber',
 			operator: '==',
@@ -33,7 +33,7 @@ export class GuestsService extends BaseService<Guest> {
 			createdAt: firestore.Timestamp.now(),
 		}
 
-		return super.create(toPlainObject(guestData));
+		await super.create(toPlainObject(guestData));
 	}
 
 	async getMyGuests(uid: string): Promise<Guest[]> {

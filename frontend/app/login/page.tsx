@@ -27,7 +27,7 @@ export default function Page() {
 			toast.success("Login successful!");
 			router.push("/guests");
 		} catch (err) {
-			console.error("Neispravni podaci za prijavu");
+			console.error(err);
 		}
 	};
 
