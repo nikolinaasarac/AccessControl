@@ -7,26 +7,35 @@ import {useEffect, useState} from "react";
 import {Guest} from "@/models/Guest.model";
 import UserService from "@/lib/service/guests.service";
 import {Loader} from "@/components/Loader";
+import {Otc} from "@/models/otc.model";
+import OtcsService from "@/lib/service/otcs.service";
+import {OtcItem} from "@/components/OtcItem";
 
 export default function Guests(){
 	const router = useRouter();
 	const [guests, setGuests] = useState<Guest[]>([]);
+	const [otcs, setOtcs] = useState<Otc[]>([]);
 
 	const [loading, setLoading] = useState(true);
+	const [activeTab, setActiveTab] = useState<"guests" | "otc">("guests");
 
 	useEffect(() => {
-		const fetchGuests = async () => {
+		const fetchData = async () => {
 			try {
-				const data = await UserService.getMyGuests();
-				setGuests(data);
+				const [guestData, otcData] = await Promise.all([
+					UserService.getMyGuests(),
+					OtcsService.getMyOtcs(),
+				]);
+				console.log(otcData);
+				setGuests(guestData);
+				setOtcs(otcData);
 			} catch (err) {
-				console.error("Failed to fetch guests", err);
+				console.error("Failed to fetch data", err);
 			} finally {
 				setLoading(false);
 			}
 		};
-
-		fetchGuests();
+		fetchData();
 	}, []);
 
 	const logout = async () => {
@@ -57,26 +66,61 @@ export default function Guests(){
 					<Button className="cursor-pointer" onClick={logout}>Log out</Button>
 				</div>
 			</div>
-				<div className="bg-white rounded-lg shadow p-4 min-h-[400px]">
+				<div className="flex border-b mb-4">
+					<button
+						className={`px-4 py-2 font-medium ${
+							activeTab === "guests"
+								? "border-b-2 border-blue-500 text-blue-600"
+								: "text-gray-500"
+						}`}
+						onClick={() => setActiveTab("guests")}
+					>
+						Guests
+					</button>
+					<button
+						className={`px-4 py-2 font-medium ${
+							activeTab === "otc"
+								? "border-b-2 border-blue-500 text-blue-600"
+								: "text-gray-500"
+						}`}
+						onClick={() => setActiveTab("otc")}
+					>
+						One-Time Codes
+					</button>
+				</div>
+				<div className="bg-white rounded-lg p-4 min-h-[400px]">
 					{loading ? (
 						<div className="flex justify-center items-center h-full">
 							<Loader text="Loading..." />
 						</div>
-					) : guests.length === 0 ? (
-						<p className="text-gray-500 text-center mt-10">
-							There are no guests yet.
-						</p>
+					) : activeTab === "guests" ? (
+						guests.length === 0 ? (
+							<p className="text-gray-500 text-center mt-10">No guests yet.</p>
+						) : (
+							<ul className="space-y-2">
+								{guests.map((g) => (
+									<GuestItem
+										key={g.id}
+										id={g.id}
+										firstName={g.firstName}
+										lastName={g.lastName}
+										companyName={g.companyName}
+										status={g.status}
+									/>
+								))}
+							</ul>
+						)
+					) : otcs.length === 0 ? (
+						<p className="text-gray-500 text-center mt-10">No one-time codes yet.</p>
 					) : (
 						<ul className="space-y-2">
-							{guests.map((guest, index) => (
-								<GuestItem
-									key={index}
-									id={guest.id}
-									firstName={guest.firstName}
-									lastName={guest.lastName}
-									companyName={guest.companyName}
-									status={guest.status}
-								/>
+							{otcs.map((o) => (
+								<OtcItem key={o.id}
+										 name={o.name}
+										 id={o.id}
+										 code={o.code}
+										 validFrom={o.createdAt}
+										 validTo={o.expiryDate} />
 							))}
 						</ul>
 					)}
