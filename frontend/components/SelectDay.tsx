@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import {Button} from "@/components/ui/button";
 import {
 	Popover,
 	PopoverTrigger,
@@ -9,13 +9,13 @@ import {
 
 
 const DAYS = [
-	{ label: "Mon", value: "mon" },
-	{ label: "Tue", value: "tue" },
-	{ label: "Wed", value: "wed" },
-	{ label: "Thu", value: "thu" },
-	{ label: "Fri", value: "fri" },
-	{ label: "Sat", value: "sat" },
-	{ label: "Sun", value: "sun" },
+	{label: "Mon", value: "mon"},
+	{label: "Tue", value: "tue"},
+	{label: "Wed", value: "wed"},
+	{label: "Thu", value: "thu"},
+	{label: "Fri", value: "fri"},
+	{label: "Sat", value: "sat"},
+	{label: "Sun", value: "sun"},
 ];
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 	onChange: (value: string[]) => void;
 };
 
-export function SelectDay({ value, onChange }: Props) {
+export function SelectDay({value, onChange}: Props) {
 	const available = DAYS.filter(d => !value.includes(d.value));
 
 	function addDay(dayValue: string) {

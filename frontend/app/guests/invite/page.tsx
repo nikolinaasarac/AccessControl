@@ -6,13 +6,13 @@ import {useAuth} from "@/context/auth-context";
 import GuestsService from "@/lib/service/guests.service";
 import GuestForm from "@/components/GuestForm";
 import {toast} from "sonner";
-import {GuestStatus} from "@/shared/enum/guest-status.enum";
 
 export default function InvitePage() {
 	const router = useRouter();
 	const {user} = useAuth();
-	if(!user)
+	if (!user)
 		return null;
+
 
 	const initialValues = {
 		firstName: "",
@@ -26,7 +26,7 @@ export default function InvitePage() {
 		toTime: "",
 	};
 
-	const handleSubmit = async (values: any, { setSubmitting, resetForm }: any) => {
+	const handleSubmit = async (values: any, {setSubmitting, resetForm}: any) => {
 		try {
 			await GuestsService.createGuest({
 				firstName: values.firstName,
@@ -49,7 +49,8 @@ export default function InvitePage() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
-			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+			<div
+				className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Invite Guests</h1>
 					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>

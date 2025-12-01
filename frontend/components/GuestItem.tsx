@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { GuestStatus } from "@/shared/enum/guest-status.enum";
+import {useRouter} from "next/navigation";
+import {GuestStatus} from "@/shared/enum/guest-status.enum";
 
 type Props = {
 	id: string | undefined;
@@ -11,7 +11,6 @@ type Props = {
 	status: GuestStatus;
 };
 
-// Funkcija za boje badge-a
 const getStatusClasses = (status: GuestStatus) => {
 	switch (status) {
 		case GuestStatus.Active:
@@ -25,7 +24,7 @@ const getStatusClasses = (status: GuestStatus) => {
 	}
 };
 
-export function GuestItem({ id, firstName, lastName, companyName, status }: Props) {
+export function GuestItem({id, firstName, lastName, companyName, status}: Props) {
 	const router = useRouter();
 	const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
 
@@ -39,7 +38,8 @@ export function GuestItem({ id, firstName, lastName, companyName, status }: Prop
 			className="flex items-center justify-between gap-4 p-4 bg-white rounded-xl shadow-sm border hover:shadow-md transition cursor-pointer"
 		>
 			<div className="flex items-center gap-4">
-				<div className="w-12 h-12 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full text-lg">
+				<div
+					className="w-12 h-12 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full text-lg">
 					{initials}
 				</div>
 

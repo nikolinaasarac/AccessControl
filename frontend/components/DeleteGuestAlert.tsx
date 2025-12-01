@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	AlertDialog,
 	AlertDialogTrigger,
@@ -6,33 +8,53 @@ import {
 	AlertDialogTitle,
 	AlertDialogDescription,
 	AlertDialogFooter,
-	AlertDialogCancel,
-	AlertDialogAction
+	AlertDialogCancel
 } from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
-export default function DeleteGuestAlert({handleDelete}: {handleDelete: () => void}) {
+import { useState } from "react";
+import {LoadingButton} from "@/components/LoadingButton";
+
+export default function DeleteGuestAlert({ handleDelete }: { handleDelete: () => Promise<void> }) {
+	const [loading, setLoading] = useState(false);
+
+	const handleClick = async () => {
+		setLoading(true);
+		try {
+			await handleDelete();
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
-	<AlertDialog>
-		<AlertDialogTrigger asChild>
-			<Button className="px-4 py-2 hover:cursor-pointer">
-				Delete Guest
-			</Button>
-		</AlertDialogTrigger>
+		<AlertDialog>
+			<AlertDialogTrigger asChild>
+				<LoadingButton
+					loading={loading}
+					className="px-4 py-2 bg-red-800 hover:bg-red-700"
+				>
+					Delete Guest
+				</LoadingButton>
+			</AlertDialogTrigger>
 
-		<AlertDialogContent>
-			<AlertDialogHeader>
-				<AlertDialogTitle>Are you sure?</AlertDialogTitle>
-				<AlertDialogDescription>
-					This action cannot be undone. This will permanently delete this guest.
-				</AlertDialogDescription>
-			</AlertDialogHeader>
+			<AlertDialogContent>
+				<AlertDialogHeader>
+					<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+					<AlertDialogDescription>
+						This action cannot be undone. This will permanently delete this guest.
+					</AlertDialogDescription>
+				</AlertDialogHeader>
 
-			<AlertDialogFooter>
-				<AlertDialogCancel>Cancel</AlertDialogCancel>
-				<AlertDialogAction onClick={handleDelete}>
-					Delete
-				</AlertDialogAction>
-			</AlertDialogFooter>
-		</AlertDialogContent>
-	</AlertDialog>)
+				<AlertDialogFooter>
+					<AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+					<LoadingButton
+						loading={loading}
+						className="bg-red-800 hover:bg-red-700"
+						onClick={handleClick}
+					>
+						Delete
+					</LoadingButton>
+				</AlertDialogFooter>
+			</AlertDialogContent>
+		</AlertDialog>
+	);
 }

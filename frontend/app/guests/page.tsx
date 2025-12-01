@@ -6,6 +6,7 @@ import {GuestItem} from "@/components/GuestItem";
 import {useEffect, useState} from "react";
 import {Guest} from "@/models/Guest.model";
 import UserService from "@/lib/service/guests.service";
+import {Loader} from "@/components/Loader";
 
 export default function Guests(){
 	const router = useRouter();
@@ -45,6 +46,8 @@ export default function Guests(){
 		router.push("guests/otc");
 	}
 
+
+
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
@@ -56,21 +59,30 @@ export default function Guests(){
 					<Button className="cursor-pointer" onClick={logout}>Log out</Button>
 				</div>
 			</div>
-
-			<div className="bg-white rounded-lg shadow p-4 min-h-[400px]">
-				<ul className="space-y-2">
-					{guests.map((guest, index) => (
-						<GuestItem
-							key={index}
-							id={guest.id}
-							firstName={guest.firstName}
-							lastName={guest.lastName}
-							companyName={guest.companyName}
-							status={guest.status}
-						/>
-					))}
-				</ul>
-			</div>
+				<div className="bg-white rounded-lg shadow p-4 min-h-[400px]">
+					{loading ? (
+						<div className="flex justify-center items-center h-full">
+							<Loader text="Loading..." />
+						</div>
+					) : guests.length === 0 ? (
+						<p className="text-gray-500 text-center mt-10">
+							There are no guests yet.
+						</p>
+					) : (
+						<ul className="space-y-2">
+							{guests.map((guest, index) => (
+								<GuestItem
+									key={index}
+									id={guest.id}
+									firstName={guest.firstName}
+									lastName={guest.lastName}
+									companyName={guest.companyName}
+									status={guest.status}
+								/>
+							))}
+						</ul>
+					)}
+				</div>
 			</div>
 		</div>
 	);

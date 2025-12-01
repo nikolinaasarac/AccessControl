@@ -1,13 +1,14 @@
 "use client";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { inviteGuestSchema } from "@/schemas/invite-guest.schema";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
-import { SelectDay } from "@/components/SelectDay";
+import {Formik, Form, Field, ErrorMessage} from "formik";
+import {inviteGuestSchema} from "@/schemas/invite-guest.schema";
+import {Button} from "@/components/ui/button";
+import {Input} from "@/components/ui/input";
+import {Switch} from "@/components/ui/switch";
+import {SelectDay} from "@/components/SelectDay";
+import {LoadingButton} from "@/components/LoadingButton";
 
-export default function GuestForm({ initialValues, onSubmit, isEdit }: any) {
+export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 	return (
 		<Formik
 			enableReinitialize
@@ -15,8 +16,8 @@ export default function GuestForm({ initialValues, onSubmit, isEdit }: any) {
 			validationSchema={inviteGuestSchema}
 			onSubmit={onSubmit}
 		>
-			{({ values, setFieldValue, errors, touched }) => (
-				<Form className="w-full flex flex-col gap-4">
+			{({values, setFieldValue, errors, touched, isSubmitting}) => (
+				<Form className="w-full flex flex-col gap-0.5">
 					<div className="flex items-center justify-between mb-6 gap-4">
 						<div className="flex-1">
 							<label className="block mb-1">First Name</label>
@@ -29,7 +30,7 @@ export default function GuestForm({ initialValues, onSubmit, isEdit }: any) {
 									: "border-gray-300 focus:ring-blue-400"}`}
 							/>
 							<div className="text-red-500 text-sm h-2 mt-1">
-								<ErrorMessage name="firstName" component="span"  />
+								<ErrorMessage name="firstName" component="span"/>
 							</div>
 						</div>
 
@@ -186,9 +187,13 @@ export default function GuestForm({ initialValues, onSubmit, isEdit }: any) {
 						</div>
 					</div>
 
-					<Button type="submit" className="mt-2 hover:cursor-pointer">
+					<LoadingButton
+						type="submit"
+						className="mt-2"
+						loading={isSubmitting}
+					>
 						{isEdit ? "Save Guest" : "Invite Guest"}
-					</Button>
+					</LoadingButton>
 				</Form>
 			)}
 		</Formik>
