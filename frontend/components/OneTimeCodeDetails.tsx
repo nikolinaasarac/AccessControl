@@ -21,7 +21,7 @@ export function OneTimeCodeDetails({ code, createdAt, expiryDate, name }: Props)
 	return (
 		<div className="from-blue-50 to-white max-w-md mx-auto">
 			<p className="text-gray-700 mb-4">
-				Please share this code with <span className="font-semibold text-blue-700">{name}</span>. Keep in mind that this code is <span className="font-medium text-red-500">one-time use</span>.
+				Please share this code with <span className="font-bold">{name}</span>. Keep in mind that this code is <span className="font-bold">one-time use</span>.
 			</p>
 
 			<div className="bg-blue-100 p-4 rounded-lg text-center mb-4">
@@ -29,8 +29,8 @@ export function OneTimeCodeDetails({ code, createdAt, expiryDate, name }: Props)
 			</div>
 
 			<div className="text-gray-600 text-sm space-y-1">
-				<p><span className="font-medium text-gray-800">Activation:</span> {formatDate(createdAt)}</p>
-				<p><span className="font-medium text-gray-800">Expires:</span> {formatDate(expiryDate)}</p>
+				<p><span className="font-bold text-gray-800">Activation:</span> {formatDate(createdAt)}</p>
+				<p><span className="font-bold text-gray-800">Expires:</span> {formatDate(expiryDate)}</p>
 			</div>
 		</div>
 	)

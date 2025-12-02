@@ -7,9 +7,10 @@ import {useEffect, useState} from "react";
 import {Otc} from "@/models/otc.model";
 import OtcsService from "@/lib/service/otcs.service";
 import {Button} from "@/components/ui/button";
-import {OTCForm} from "@/components/OTCForm";
+import {OtcForm} from "@/components/OtcForm";
 import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
+import {ConfirmDialog} from "@/components/ConfirmDialog";
 
 export default function OTCInfo() {
 	const router = useRouter();
@@ -17,11 +18,13 @@ export default function OTCInfo() {
 	const {id} = useParams();
 	const otcId = Array.isArray(id) ? id[0] : id;
 
-	if(!otcId)
+	if (!otcId)
 		return null;
 
 	const [otc, setOtc] = useState<Otc | null>(null);
 	const [loading, setLoading] = useState(true);
+
+	const [showDelete, setShowDelete] = useState(false);
 
 	const handleDelete = async () => {
 		try {
@@ -51,29 +54,47 @@ export default function OTCInfo() {
 		fetchOtc();
 	}, [user, otcId]);
 
-	if(!otc)
+	if (!otc)
 		return null
 
 	return (
-	<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
-		<div
-			className="w-full min-h-[25vh] max-h-[60vh] max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">
-					One-Time Code
-				</h1>
-				<Button
-					className="px-4 py-2 hover:cursor-pointer"
-					onClick={() => router.back()}
-				>
-					Back
-				</Button>
+		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
+			<div
+				className="w-full min-h-[25vh] max-h-[60vh] max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+				<div className="flex justify-between items-center mb-6">
+					<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">
+						One-Time Code
+					</h1>
+					<Button
+						className="px-4 py-2 hover:cursor-pointer"
+						onClick={() => router.back()}
+					>
+						Back
+					</Button>
+				</div>
+				<div className="my-auto overflow-auto">
+					<OneTimeCodeDetails code={otc.code} name={otc.name} expiryDate={otc.expiryDate}
+										createdAt={otc.createdAt}/>
+				</div>
+				<div className="flex justify-center mt-4">
+					<Button
+						className="w-1/4 bg-red-600 hover:bg-red-700 hover:cursor-pointer"
+						onClick={() => setShowDelete(true)}
+					>
+						Delete OTC
+					</Button>
+				</div>
+				<ConfirmDialog
+					open={showDelete}
+					title="Delete OTC"
+					description="This action cannot be undone."
+					confirmText="Delete"
+					cancelText="Cancel"
+					confirmColor="bg-red-600 hover:bg-red-700"
+					onConfirm={handleDelete}
+					onCancel={() => setShowDelete(false)}
+				/>
 			</div>
-			<div className="my-auto overflow-auto">
-					<OneTimeCodeDetails code={otc.code} name={otc.name} expiryDate={otc.expiryDate} createdAt={otc.createdAt} />
-			</div>
-			<Button className="bg-red-600 hover:bg-red-700 hover:cursor-pointer" onClick={handleDelete}>Detete OTC</Button>
 		</div>
-	</div>
 	);
 }
