@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {BaseService} from "../base/base.service";
 import {FirebaseService} from "../firebase/firebase.service";
 import {firestore} from "firebase-admin";
@@ -32,6 +32,10 @@ export class OtcsService extends BaseService<Otc> {
 
 		await super.create(toPlainObject(otcData), otcId);
 		return otcData;
+	}
+
+	async getOtcById(id: string): Promise<Otc | null> {
+		return await super.getById(id);
 	}
 
 	async deleteOtc(id: string): Promise<void> {
