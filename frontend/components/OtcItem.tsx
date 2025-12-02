@@ -1,7 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import {Card} from "@/components/ui/card";
 import {DateOtc} from "@/models/otc.model";
+import {Clock} from "lucide-react";
+import {Badge} from "@/components/ui/badge";
+import {date} from "yup";
 
 interface OTCItemProps {
 	id: string;
@@ -11,7 +14,7 @@ interface OTCItemProps {
 	validTo: DateOtc;
 }
 
-export function OtcItem({ id, code, validFrom, validTo, name}: OTCItemProps) {
+export function OtcItem({id, code, validFrom, validTo, name}: OTCItemProps) {
 
 	function formatFirestoreDate(timestamp: DateOtc) {
 		const date = new Date(timestamp._seconds * 1000);
@@ -25,13 +28,34 @@ export function OtcItem({ id, code, validFrom, validTo, name}: OTCItemProps) {
 		return date.toLocaleString("en-US", options);
 	}
 
+	const expiryDate = new Date(validTo._seconds * 1000);
+	const today = new Date();
+
+	const isExpired = expiryDate < today;
+
 	return (
 		<li className="w-full">
-			<Card className="p-4 flex flex-col gap-1 shadow-sm border rounded-lg">
-				<p className="text-sm text-gray-700"><strong>Code:</strong> {code}</p>
-				<p className="text-sm text-gray-700"><strong>Name:</strong> {name}</p>
-				<div className="text-sm text-gray-700">
-					<strong>Valid to:</strong>{" "}{formatFirestoreDate(validTo)}
+			<Card className={`p-4 flex flex-col gap-3 shadow-sm border rounded-xl  ${
+						isExpired ? "bg-red-200" : "bg-green-200"
+					}`}>
+
+				<p className="text-xl font-semibold text-center text-gray-900">
+					{name}
+				</p>
+
+				<div className="flex justify-center">
+					<Badge variant="secondary" className="text-base px-3 py-1 rounded-md">
+						{code}
+					</Badge>
+				</div>
+
+				<div
+					className="flex items-center justify-center gap-2 text-sm mt-1"
+				>
+					<Clock size={16} />
+					<span>
+                        {isExpired ? "Expired:" : "Valid to:"} {formatFirestoreDate(validTo)}
+                    </span>
 				</div>
 
 			</Card>
