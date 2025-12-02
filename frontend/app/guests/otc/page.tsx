@@ -10,21 +10,27 @@ import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
 import OtcsService from "@/lib/service/otcs.service";
 import {values} from "eslint-config-next";
+import {Otc} from "@/models/otc.model";
+import {useState} from "react";
+import {OneTimeCodeDetails} from "@/components/OneTimeCodeDetails";
+import {OTCForm} from "@/components/OTCForm";
 
-export default function OTCForm() {
+export default function OTCPage() {
 	const router = useRouter();
 	const initialValues = {
 		name: ""
 	};
 
+	const [newOtc, setNewOtc] = useState<Otc | null>(null);
+
 	const handleSubmit = async (values: any, {setSubmitting, resetForm}: any) => {
 		try {
-			await OtcsService.createOtc({
+			const createdOtc = await OtcsService.createOtc({
 				name: values.name,
 			});
 			resetForm();
+			setNewOtc(createdOtc);
 			toast.success("Otc successfully created!");
-			router.back();
 		} catch (error: unknown) {
 			const message =
 				typeof error === "object" && error !== null && "message" in error
@@ -39,9 +45,11 @@ export default function OTCForm() {
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div
-				className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+				className="w-full min-h-[25vh] max-h-[60vh] max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-xl font-bold">Add One-Time Code</h1>
+					<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">
+						Add One-Time Code
+					</h1>
 					<Button
 						className="px-4 py-2 hover:cursor-pointer"
 						onClick={() => router.back()}
@@ -49,52 +57,15 @@ export default function OTCForm() {
 						Back
 					</Button>
 				</div>
-				<div>
-				<div>
-					<span className="text-l text-gray-500 italic">Use the one-time access codes for your non-recurring visitors,
-						delivery drivers, car services, and other needs. Codes are valid
-						for 30 days or until first use after creation. </span>
-				</div>
-				<Formik
-					enableReinitialize
-					initialValues={initialValues}
-					validationSchema={otcSchema}
-					onSubmit={handleSubmit}
-				>
-					{({errors, touched, isSubmitting}) => (
-						<Form className="w-full flex flex-col gap-4">
-							<div className="w-full">
-								<label className="block my-3">Full Name or Company Name</label>
-								<Field
-									as={Input}
-									name="name"
-									placeholder="Enter name"
-									className={`w-full border rounded-md px-2 py-1 focus:outline-none focus:ring-2 
-									${errors.name && touched.name ? "border-red-500 focus:ring-red-400" : 
-										"border-gray-300 focus:ring-blue-400"}`}
-								/>
-								<div className="text-red-500 text-sm h-4 mt-1">
-									<ErrorMessage name="name" component="span"/>
-								</div>
-							</div>
-
-							<LoadingButton
-								type="submit"
-								loading={isSubmitting}
-							>
-								Generate Code
-							</LoadingButton>
-						</Form>
-					)}
-				</Formik>
-				</div>
-				<div>
-					Please share this code with . Keep in mind that this code is one-time use.
-
-					531226
-					Activation: Tuesday, December 2, 2025 at 10:19 AM
-
-					Expires: Thursday, January 1, 2026 at 10:19 AM
+				<div className="my-auto overflow-auto">
+				{!newOtc ? (
+					<OTCForm onSubmit={handleSubmit} initialValues={initialValues}/>
+				) : (
+					<OneTimeCodeDetails code={newOtc.code}
+										createdAt={newOtc.createdAt}
+										expiryDate={newOtc.expiryDate}
+										name={newOtc.name}/>
+				)}
 				</div>
 			</div>
 		</div>

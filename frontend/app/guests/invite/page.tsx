@@ -60,7 +60,7 @@ export default function InvitePage() {
 			<div
 				className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
-					<h1 className="text-xl font-bold">Invite Guests</h1>
+					<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">Invite Guests</h1>
 					<Button className="px-4 py-2 hover:cursor-pointer" onClick={() => router.back()}>
 						Back
 					</Button>
