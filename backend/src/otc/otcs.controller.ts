@@ -24,4 +24,14 @@ export class OtcsController {
 		return await this.otcsService.createOtc(uid, createOtcDto);
 	}
 
+	@Get(':id') // /guests
+	async getOtcById(@Param('id') id: string) {
+		return await this.otcsService.getOtcById(id);
+	}
+
+	@Delete(':id')
+	async deleteOtc(@Param('id') id: string) {
+		return await this.otcsService.deleteOtc(id);
+	}
+
 }

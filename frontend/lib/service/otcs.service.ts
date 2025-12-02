@@ -1,7 +1,6 @@
 import {CreateOtcDto} from "@/dto/create-otc.dto";
 import {Otc} from "@/models/otc.model";
 import BaseService from "@/lib/service/base.service";
-import {Guest} from "@/models/Guest.model";
 
 export default class OtcsService {
 	static readonly ENDPOINT = '/otcs';
@@ -14,4 +13,11 @@ export default class OtcsService {
 		return BaseService.create<Otc>(this.ENDPOINT, otcData);
 	}
 
+	static async getOtcById(id: string): Promise<Otc> {
+		return BaseService.fetch<Otc>(`${this.ENDPOINT}/${id}`);
+	}
+
+	static async deleteOtc(id: string): Promise<void> {
+		return BaseService.delete(`${this.ENDPOINT}/${id}`);
+	}
 }

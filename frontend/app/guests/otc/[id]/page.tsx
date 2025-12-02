@@ -1,0 +1,79 @@
+"use client"
+
+import {useParams, useRouter} from "next/navigation";
+import {useAuth} from "@/context/auth-context";
+import {OneTimeCodeDetails} from "@/components/OneTimeCodeDetails";
+import {useEffect, useState} from "react";
+import {Otc} from "@/models/otc.model";
+import OtcsService from "@/lib/service/otcs.service";
+import {Button} from "@/components/ui/button";
+import {OTCForm} from "@/components/OTCForm";
+import GuestsService from "@/lib/service/guests.service";
+import {toast} from "sonner";
+
+export default function OTCInfo() {
+	const router = useRouter();
+	const {user} = useAuth();
+	const {id} = useParams();
+	const otcId = Array.isArray(id) ? id[0] : id;
+
+	if(!otcId)
+		return null;
+
+	const [otc, setOtc] = useState<Otc | null>(null);
+	const [loading, setLoading] = useState(true);
+
+	const handleDelete = async () => {
+		try {
+			await OtcsService.deleteOtc(otcId);
+			toast.success("OTC successfully deleted!");
+			router.back();
+		} catch (error) {
+			console.error("Failed to delete OTC", error);
+			toast.error("Failed to delete OTC. Please try again.");
+		}
+	}
+
+	useEffect(() => {
+		if (!user || !otcId) return;
+
+		const fetchOtc = async () => {
+			try {
+				const data = await OtcsService.getOtcById(otcId); // Backend endpoint koji vraća jedan OTC
+				setOtc(data);
+			} catch (error) {
+				console.error("Failed to fetch OTC", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchOtc();
+	}, [user, otcId]);
+
+	if(!otc)
+		return null
+
+	return (
+	<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
+		<div
+			className="w-full min-h-[25vh] max-h-[60vh] max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+			<div className="flex justify-between items-center mb-6">
+				<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">
+					One-Time Code
+				</h1>
+				<Button
+					className="px-4 py-2 hover:cursor-pointer"
+					onClick={() => router.back()}
+				>
+					Back
+				</Button>
+			</div>
+			<div className="my-auto overflow-auto">
+					<OneTimeCodeDetails code={otc.code} name={otc.name} expiryDate={otc.expiryDate} createdAt={otc.createdAt} />
+			</div>
+			<Button className="bg-red-600 hover:bg-red-700 hover:cursor-pointer" onClick={handleDelete}>Detete OTC</Button>
+		</div>
+	</div>
+	);
+}

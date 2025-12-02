@@ -4,7 +4,7 @@ import {Card} from "@/components/ui/card";
 import {DateOtc} from "@/models/otc.model";
 import {Clock} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
-import {date} from "yup";
+import {useRouter} from "next/navigation";
 
 interface OTCItemProps {
 	id: string;
@@ -15,6 +15,11 @@ interface OTCItemProps {
 }
 
 export function OtcItem({id, code, validFrom, validTo, name}: OTCItemProps) {
+	const router = useRouter();
+
+	const handleClick = () => {
+		router.push(`guests/otc/${id}`);
+	};
 
 	function formatFirestoreDate(timestamp: DateOtc) {
 		const date = new Date(timestamp._seconds * 1000);
@@ -35,9 +40,9 @@ export function OtcItem({id, code, validFrom, validTo, name}: OTCItemProps) {
 
 	return (
 		<li className="w-full">
-			<Card className={`p-4 flex flex-col gap-3 shadow-sm border rounded-xl  ${
+			<Card className={`hover:cursor-pointer p-4 flex flex-col gap-3 shadow-sm border rounded-xl  ${
 						isExpired ? "bg-red-200" : "bg-green-200"
-					}`}>
+					}`} onClick={handleClick}>
 
 				<p className="text-xl font-semibold text-center text-gray-900">
 					{name}
