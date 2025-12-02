@@ -4,30 +4,23 @@ import {useRouter} from "next/navigation";
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import {loginSchema} from "@/schemas/login.schema";
 import {toast} from "sonner";
+import {useEffect} from "react";
+import {useAuth} from "@/context/auth-context";
 
 
 export default function Page() {
 	const router = useRouter();
+	const {user, isLoading, setUser, login} = useAuth();
 
-	const logIn = async (values: { email: string; password: string }) => {
+
+	const handleLogin = async (values: any, { setSubmitting }: any) => {
 		try {
-			const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
-				method: "POST",
-				headers: {"Content-Type": "application/json"},
-				body: JSON.stringify(values),
-			});
-
-			if (!res.ok) {
-				toast.error("Incorrect email or password");
-				return
-			}
-
-			const {token} = await res.json();
-			localStorage.setItem("accessToken", token);
-			toast.success("Login successful!");
+			await login(values.email, values.password);
 			router.push("/guests");
-		} catch (err) {
-			console.error(err);
+		} catch {
+			toast.error("Login failed");
+		} finally {
+			setSubmitting(false);
 		}
 	};
 
@@ -49,7 +42,7 @@ export default function Page() {
 				<Formik
 					initialValues={{email: "", password: ""}}
 					validationSchema={loginSchema}
-					onSubmit={logIn}
+					onSubmit={handleLogin}
 					onError={() => {
 						toast.error("Please fill in all required fields correctly");
 					}}

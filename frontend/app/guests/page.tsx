@@ -10,11 +10,13 @@ import {Loader} from "@/components/Loader";
 import {Otc} from "@/models/otc.model";
 import OtcsService from "@/lib/service/otcs.service";
 import {OtcItem} from "@/components/OtcItem";
+import {useAuth} from "@/context/auth-context";
 
 export default function Guests(){
 	const router = useRouter();
 	const [guests, setGuests] = useState<Guest[]>([]);
 	const [otcs, setOtcs] = useState<Otc[]>([]);
+	const {logout} = useAuth();
 
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState<"guests" | "otc">("guests");
@@ -37,15 +39,6 @@ export default function Guests(){
 		};
 		fetchData();
 	}, []);
-
-	const logout = async () => {
-		try {
-			localStorage.removeItem("accessToken");
-			router.push("/login");
-		} catch (err) {
-			console.error("Logout failed", err);
-		}
-	};
 
 	const handleInvite= async () => {
 		router.push("guests/invite");
