@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString} from "class-validator";
+import {firestore} from "firebase-admin";
 
 export class Otc {
 	@IsString()
@@ -13,10 +14,10 @@ export class Otc {
 	creatorId: string;
 
 	@IsString()
-	createdAt: string;
+	createdAt: firestore.Timestamp;
 
 	@IsString()
-	expiryDate: string;
+	expiryDate: firestore.Timestamp;
 
 	@IsString()
 	code: string;

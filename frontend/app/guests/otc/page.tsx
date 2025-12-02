@@ -9,6 +9,7 @@ import {otcSchema} from "@/schemas/otc.schema";
 import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
 import OtcsService from "@/lib/service/otcs.service";
+import {values} from "eslint-config-next";
 
 export default function OTCForm() {
 	const router = useRouter();
@@ -49,6 +50,7 @@ export default function OTCForm() {
 					</Button>
 				</div>
 				<div>
+				<div>
 					<span className="text-l text-gray-500 italic">Use the one-time access codes for your non-recurring visitors,
 						delivery drivers, car services, and other needs. Codes are valid
 						for 30 days or until first use after creation. </span>
@@ -85,6 +87,15 @@ export default function OTCForm() {
 						</Form>
 					)}
 				</Formik>
+				</div>
+				<div>
+					Please share this code with . Keep in mind that this code is one-time use.
+
+					531226
+					Activation: Tuesday, December 2, 2025 at 10:19 AM
+
+					Expires: Thursday, January 1, 2026 at 10:19 AM
+				</div>
 			</div>
 		</div>
 	);

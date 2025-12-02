@@ -18,19 +18,22 @@ export class OtcsService extends BaseService<Otc> {
 		return await super.query({field: "creatorId", operator: "==", value: uid});
 	}
 
-	async createOtc(uid: string, createOtcDto: CreateOtcDto): Promise<void> {
+	async createOtc(uid: string, createOtcDto: CreateOtcDto): Promise<Otc> {
 		const generateSixDigitCode = () => Math.floor(100000 + Math.random() * 900000);
 		const expiryDate = firestore.Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
 
+		const otcId = this.generateDocId();
 		const otcData = {
 			...createOtcDto,
 			creatorId: uid,
 			createdAt: firestore.Timestamp.now(),
 			expiryDate: expiryDate,
-			code: generateSixDigitCode()
+			code: generateSixDigitCode().toString(),
+			id: otcId
 		};
 
-		await super.create(toPlainObject(otcData));
+		await super.create(toPlainObject(otcData), otcId);
+		return otcData;
 	}
 
 	async deleteOtc(id: string): Promise<void> {
