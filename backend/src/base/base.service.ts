@@ -39,13 +39,25 @@ export class BaseService<T> {
 		return doc.exists ? (doc.data() as T) : null;
 	}
 
-	async create(data: Partial<T>): Promise<void> {
-		const docRef = this.firebaseService.firestore
-			.collection(this.collectionName)
-			.doc();
-
-		await docRef.set({id: docRef.id, ...data});
+	generateDocId(): string {
+		return this.firebaseService.firestore.collection(this.collectionName).doc().id;
 	}
+
+	async create(data: Partial<T>, id?: string): Promise<void> {
+		if (id) {
+			await this.firebaseService.firestore
+				.collection(this.collectionName)
+				.doc(id)
+				.set(data);
+		} else {
+			const docId = this.generateDocId();
+			await this.firebaseService.firestore
+				.collection(this.collectionName)
+				.doc(docId)
+				.set({ id: docId, ...data });
+		}
+	}
+
 
 	async update(id: string, data: Partial<T>): Promise<void> {
 		const docRef = this.firebaseService.firestore
