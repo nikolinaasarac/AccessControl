@@ -18,7 +18,6 @@ export class AuthController {
 	@UseGuards(FirebaseAuthGuard)
 	@Get('me')
 	async getMe(@Req() req) {
-		// req.user dolazi iz guard-a, sadrži uid
 		return this.authService.getMe(req.user.uid);
 	}
 	

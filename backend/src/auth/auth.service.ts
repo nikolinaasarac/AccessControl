@@ -18,7 +18,18 @@ export class AuthService {
 		if (data.error) {
 			throw new BadRequestException(data.error.message || JSON.stringify(data.error));
 		}
-		return { token:data.idToken};
+
+		const user = {
+			id: data.localId,
+			email: data.email
+		};
+
+		return {
+			token: data.idToken,
+			refreshToken: data.refreshToken,
+			expiresIn: data.expiresIn,
+			user,
+		};
 	}
 
 	async getMe(uid: string) {

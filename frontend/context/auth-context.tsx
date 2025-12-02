@@ -11,6 +11,7 @@ interface AuthContextProps {
 	setUser: (user: User | null) => void;
 	isLoading: boolean;
 	isLoggingIn: boolean;
+	login: (email: string, password: string) => Promise<void>;
 	logout: () => void;
 	rehydrateUser: () => Promise<void>;
 }
@@ -35,6 +36,22 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 		}
 	}, []);
 
+	const login = async (email: string, password: string) => {
+		try {
+			setIsLoggingIn(true);
+
+			const {user, token} = await UserService.login(email, password);
+			localStorage.setItem('accessToken', token);
+
+			setUser(user);
+		} catch (error) {
+			console.error('Login failed:', error);
+			toast.error('Invalid credentials');
+		} finally {
+			setIsLoggingIn(false);
+		}
+	};
+
 	const rehydrateUser = async () => {
 		try {
 			const user = await UserService.getCurrentUser();
@@ -52,13 +69,12 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 		setUser(null);
 
 		localStorage.removeItem('accessToken');
-		localStorage.removeItem('refreshToken');
 
 		router.push('/login');
 	};
 
 	const value = useMemo(
-		() => ({user, setUser, isLoading, isLoggingIn, logout, rehydrateUser}),
+		() => ({user, setUser, login, isLoading, isLoggingIn, logout, rehydrateUser}),
 		[user, isLoading, isLoggingIn]
 	);
 

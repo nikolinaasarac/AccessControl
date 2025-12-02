@@ -1,4 +1,5 @@
 export default interface QueryParams {
+	method?: string;
 	sort?: string;
 	limit?: number;
 	page?: number;
