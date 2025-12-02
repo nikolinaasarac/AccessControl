@@ -59,7 +59,7 @@ export default function Guests(){
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 			<div className="flex items-center justify-between mb-6 gap-2">
-				<h1 className="text-xl font-bold">Guests</h1>
+				<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">Guests</h1>
 				<div className="flex flex-wrap gap-2 justify-end">
 					<Button className="cursor-pointer" onClick={handleInvite}>Invite guest</Button>
 					<Button className="cursor-pointer" onClick={handleOTC}>One time code</Button>
@@ -75,7 +75,7 @@ export default function Guests(){
 						}`}
 						onClick={() => setActiveTab("guests")}
 					>
-						Guests
+						Invites
 					</button>
 					<button
 						className={`px-4 py-2 font-medium ${
@@ -88,7 +88,7 @@ export default function Guests(){
 						One-Time Codes
 					</button>
 				</div>
-				<div className="bg-white rounded-lg p-4 min-h-[400px] max-h-[60vh] overflow-y-auto pr-2">
+				<div className="bg-white rounded-lg p-4 min-h-[50vh] max-h-[50vh] overflow-y-auto pr-2">
 					{loading ? (
 						<div className="flex justify-center items-center h-full">
 							<Loader text="Loading..." />

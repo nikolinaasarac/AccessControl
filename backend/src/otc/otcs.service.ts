@@ -5,8 +5,6 @@ import {firestore} from "firebase-admin";
 import {toPlainObject} from "../shared/toPlainObject";
 import {Otc} from "./entities/otc";
 import {CreateOtcDto} from "./dto/create-otc.dto";
-import {GuestStatus} from "../shared/enum/guest-status.enum";
-import {Guest} from "../guests/entities/Guest";
 
 @Injectable()
 export class OtcsService extends BaseService<Otc> {
