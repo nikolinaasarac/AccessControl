@@ -88,7 +88,7 @@ export default function Guests(){
 						One-Time Codes
 					</button>
 				</div>
-				<div className="bg-white rounded-lg p-4 min-h-[400px]">
+				<div className="bg-white rounded-lg p-4 min-h-[400px] max-h-[60vh] overflow-y-auto pr-2">
 					{loading ? (
 						<div className="flex justify-center items-center h-full">
 							<Loader text="Loading..." />
