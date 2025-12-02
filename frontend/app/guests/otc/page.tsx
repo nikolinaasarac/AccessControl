@@ -13,7 +13,7 @@ import {values} from "eslint-config-next";
 import {Otc} from "@/models/otc.model";
 import {useState} from "react";
 import {OneTimeCodeDetails} from "@/components/OneTimeCodeDetails";
-import {OTCForm} from "@/components/OTCForm";
+import {OtcForm} from "@/components/OtcForm";
 
 export default function OTCPage() {
 	const router = useRouter();
@@ -59,7 +59,7 @@ export default function OTCPage() {
 				</div>
 				<div className="my-auto overflow-auto">
 				{!newOtc ? (
-					<OTCForm onSubmit={handleSubmit} initialValues={initialValues}/>
+					<OtcForm onSubmit={handleSubmit} initialValues={initialValues}/>
 				) : (
 					<OneTimeCodeDetails code={newOtc.code}
 										createdAt={newOtc.createdAt}

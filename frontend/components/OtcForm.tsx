@@ -10,7 +10,7 @@ type Props = {
 	onSubmit: (values: any, helpers: any) => void;
 }
 
-export function OTCForm({initialValues, onSubmit}: Props) {
+export function OtcForm({initialValues, onSubmit}: Props) {
 	return (
 		<div>
 			<div>
