@@ -14,7 +14,6 @@ import {EditGuestSkeleton} from "@/components/skeleton/EditGuestSkeleton";
 import {ConfirmDialog} from "@/components/ConfirmDialog";
 
 export default function EditGuestPage() {
-	console.log('Edit Guest Page');
 	const router = useRouter();
 	const {user} = useAuth();
 	const {id} = useParams();
@@ -55,9 +54,7 @@ export default function EditGuestPage() {
 	useEffect(() => {
 		const load = async () => {
 			const g = await GuestsService.getGuestById(guestId);
-			console.error("Guests found!");
 			if(!g) {
-				console.error("Guests not found! Ova");
 				router.push("/not-found");
 				return;
 			}
@@ -117,6 +114,7 @@ export default function EditGuestPage() {
 
 	return (
 		<div className="bg-gray-100 p-6 flex items-center justify-center">
+
 			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-xl font-bold">Edit Guest</h1>
