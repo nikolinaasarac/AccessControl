@@ -7,22 +7,21 @@ Built using **Next.js**, **React**, **TailwindCSS**, **ShadCN UI**,
 
 ## Features
 
-- Login with one-time code\
-- Protected routes with automatic redirect\
-- Display of logged-in user\
-- Modern UI (Tailwind + ShadCN)\
-- Responsive layout\
-- Guest creation and management\
-- Form validation using Yup\
+- Login with one-time code
+- Protected routes with automatic redirect
+- Modern UI (Tailwind + ShadCN)
+- Responsive layout
+- Guest creation and management
+- Form validation using Yup
 - Loading states for buttons and modals
 
 ## Tech Stack
 
 - Next.js 14 (App Router)
-- React\
-- TypeScript\
-- TailwindCSS\
-- ShadCN/UI\
+- React
+- TypeScript
+- TailwindCSS
+- ShadCN/UI
 - Formik + Yup
 
 ## Installation
@@ -39,13 +38,13 @@ The app will be available at: http://localhost:3000
 
 ## Environment Variables
 
-Create a `.env.local` file:
+Create a .env.local file inside the frontend folder and add:
 
     NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
 
-Create a `.env` file:
+Create a .env file inside the backend folder and configure your environment variables:
 
-    TYPE=service_account
+    TYPE=
     PROJECT_ID=
     PRIVATE_KEY_ID=
     PRIVATE_KEY=""
