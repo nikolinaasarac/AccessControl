@@ -27,17 +27,17 @@ export default function RootLayout({
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
 			<div className="w-full flex flex-col">
-				<div className="w-full flex justify-center ">
+				<div className="flex justify-center ">
 					<img
 						src="/secure-login.png"
-						width={160}
-						height={160}
+						width={70}
+						height={70}
 						alt="app-logo"
 						className="select-none"
 					/>
 				</div>
 				<div className="flex justify-center items-center gap-2 py-2">
-					<div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold">
+					<div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-semibold">
 						{user?.email?.[0].toUpperCase()}
 					</div>
 					<p className="text-lg text-gray-600">{user?.email}</p>

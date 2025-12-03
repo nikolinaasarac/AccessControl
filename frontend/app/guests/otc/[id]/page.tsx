@@ -15,9 +15,7 @@ export default function OTCInfo() {
 	const router = useRouter();
 	const {user} = useAuth();
 	const {id} = useParams();
-	console.log(id);
 	const otcId = Array.isArray(id) ? id[0] : id;
-	console.log("otc Id: ", otcId);
 
 	if (!otcId)
 		return null;
@@ -37,7 +35,6 @@ export default function OTCInfo() {
 	}
 
 	useEffect(() => {
-		console.log("otcId: ", otcId);
 		if (!user || !otcId) return;
 
 		const fetchOtc = async () => {
@@ -54,6 +51,11 @@ export default function OTCInfo() {
 
 		fetchOtc();
 	}, [otcId]);
+
+	if(!loading && !otc) {
+		router.push("/not-found");
+		return
+	}
 
 
 	return (
@@ -74,16 +76,14 @@ export default function OTCInfo() {
 				<div className="my-auto overflow-auto">
 					{loading ? (
 						<OtcDetailsSkeleton />
-					) : !otc ? (
-						<p className="text-center text-gray-600 py-4">OTC not found.</p>
-					) : (
+					) : otc ? (
 						<OneTimeCodeDetails
 							code={otc.code}
 							name={otc.name}
 							expiryDate={otc.expiryDate}
 							createdAt={otc.createdAt}
 						/>
-					)}
+					) : null}
 				</div>
 				<div className="flex justify-center mt-4">
 					<Button
