@@ -38,7 +38,7 @@ export default function OTCPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
+		<div className="bg-gray-100 p-6 flex items-center justify-center">
 			<div
 				className="w-full min-h-[25vh] max-h-[60vh] max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
 				<div className="flex justify-between items-center mb-6">
