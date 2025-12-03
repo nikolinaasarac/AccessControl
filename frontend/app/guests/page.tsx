@@ -19,7 +19,13 @@ export default function Guests(){
 	const {logout} = useAuth();
 
 	const [loading, setLoading] = useState(true);
-	const [activeTab, setActiveTab] = useState<"guests" | "otc">("guests");
+	const [activeTab, setActiveTab] = useState<"guests" | "otc">(
+		(typeof window !== "undefined" && (localStorage.getItem("activeTab") as "guests" | "otc")) || "guests"
+	);
+
+	useEffect(() => {
+		localStorage.setItem("activeTab", activeTab);
+	}, [activeTab]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -54,8 +60,14 @@ export default function Guests(){
 			<div className="flex items-center justify-between mb-6 gap-2">
 				<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">Guests</h1>
 				<div className="flex flex-wrap gap-2 justify-end">
-					<Button className="cursor-pointer" onClick={handleInvite}>Invite guest</Button>
-					<Button className="cursor-pointer" onClick={handleOTC}>One time code</Button>
+					{activeTab === "guests" && (
+						<Button className="cursor-pointer" onClick={handleInvite}>
+							Invite guest
+						</Button>)
+					}
+					{activeTab === "otc" && (
+						<Button className="cursor-pointer" onClick={handleOTC}>One time code</Button>
+					)}
 					<Button className="cursor-pointer" onClick={logout}>Log out</Button>
 				</div>
 			</div>
@@ -81,7 +93,7 @@ export default function Guests(){
 						One-Time Codes
 					</button>
 				</div>
-				<div className="bg-white rounded-lg p-4 min-h-[50vh] max-h-[50vh] overflow-y-auto pr-2">
+				<div className="bg-white rounded-lg min-h-[50vh] max-h-[50vh] overflow-y-auto">
 					{loading ? (
 						<div className="flex justify-center items-center h-full">
 							<Loader text="Loading..." />

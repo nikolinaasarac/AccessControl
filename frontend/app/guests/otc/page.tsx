@@ -1,15 +1,9 @@
 "use client";
 
-import {Formik, Form, Field, ErrorMessage} from "formik";
 import {Button} from "@/components/ui/button";
-import {LoadingButton} from "@/components/LoadingButton";
-import {Input} from "@/components/ui/input";
 import {useRouter} from "next/navigation";
-import {otcSchema} from "@/schemas/otc.schema";
-import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
 import OtcsService from "@/lib/service/otcs.service";
-import {values} from "eslint-config-next";
 import {Otc} from "@/models/otc.model";
 import {useState} from "react";
 import {OneTimeCodeDetails} from "@/components/OneTimeCodeDetails";
@@ -17,6 +11,7 @@ import {OtcForm} from "@/components/OtcForm";
 
 export default function OTCPage() {
 	const router = useRouter();
+	const [loadingDetails, setLoadingDetails] = useState(false);
 	const initialValues = {
 		name: ""
 	};

@@ -19,7 +19,7 @@ export default function RootLayout({
 
 	if (isLoading || !user) {
 		return <div className="h-screen flex justify-center items-center mb-6">
-			<Spinner className="w-1/7 h-1/7" />
+			<Spinner className="w-15 h-15" />
 		</div>
 	}
 

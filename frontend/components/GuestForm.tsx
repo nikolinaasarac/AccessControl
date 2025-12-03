@@ -2,7 +2,6 @@
 
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import {inviteGuestSchema} from "@/schemas/invite-guest.schema";
-import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Switch} from "@/components/ui/switch";
 import {SelectDay} from "@/components/SelectDay";
@@ -29,6 +28,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
           								${errors.firstName && touched.firstName
 									? "border-red-500 focus:ring-red-400"
 									: "border-gray-300 focus:ring-blue-400"}`}
+								placeholder="Enter First Name"
 							/>
 							<div className="text-red-500 text-sm h-2 mt-1">
 								<ErrorMessage name="firstName" component="span"/>
@@ -44,6 +44,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
           								${errors.lastName && touched.lastName
 									? "border-red-500 focus:ring-red-400"
 									: "border-gray-300 focus:ring-blue-400"}`}
+								placeholder="Enter Last Name"
 							/>
 							<div className="text-red-500 text-sm h-2 mt-1">
 								<ErrorMessage
@@ -77,6 +78,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
           								${errors.companyName && touched.companyName
 											? "border-red-500 focus:ring-red-400"
 											: "border-gray-300 focus:ring-blue-400"}`}
+										placeholder="Enter Company Name"
 									/>
 									<div className="text-red-500 text-sm h-2 mt-1">
 										<ErrorMessage
@@ -100,6 +102,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
           								${errors.phoneNumber && touched.phoneNumber
 									? "border-red-500 focus:ring-red-400"
 									: "border-gray-300 focus:ring-blue-400"}`}
+								placeholder="Enter Phone Number"
 							/>
 							<div className="text-red-500 text-sm h-2 mt-1">
 								<ErrorMessage
@@ -182,10 +185,9 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 							</label>
 						</div>
 					</div>
-
 					<LoadingButton
 						type="submit"
-						className="mt-2"
+						className="mt-2 hover:cursor-pointer"
 						loading={isSubmitting}
 					>
 						{isEdit ? "Save Guest" : "Invite Guest"}
