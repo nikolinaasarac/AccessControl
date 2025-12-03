@@ -6,6 +6,8 @@ import {loginSchema} from "@/schemas/login.schema";
 import {toast} from "sonner";
 import {useEffect} from "react";
 import {useAuth} from "@/context/auth-context";
+import {Button} from "@/components/ui/button";
+import {LoadingButton} from "@/components/LoadingButton";
 
 
 export default function Page() {
@@ -16,7 +18,6 @@ export default function Page() {
 	const handleLogin = async (values: any, { setSubmitting }: any) => {
 		try {
 			await login(values.email, values.password);
-			router.push("/guests");
 		} catch {
 			toast.error("Login failed");
 		} finally {
@@ -92,13 +93,13 @@ export default function Page() {
 								</div>
 							</div>
 
-							<button
+							<LoadingButton
 								type="submit"
 								disabled={isSubmitting}
-								className="w-full mt-5 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:cursor-pointer"
+								className="w-full mt-5 text-white px-4 py-2 rounded-md hover:cursor-pointer"
 							>
 								Log in
-							</button>
+							</LoadingButton>
 						</Form>
 					)}
 				</Formik>

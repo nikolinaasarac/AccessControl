@@ -38,7 +38,7 @@ export function GuestItem({id, firstName, lastName, companyName, status}: Props)
 			className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 p-3 sm:p-4 bg-white rounded-xl shadow-sm border hover:shadow-md transition cursor-pointer"
 		>
 			<div className="flex items-center gap-3 sm:gap-4">
-				<div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center bg-blue-500 text-white font-semibold rounded-full text-lg sm:text-xl">
+				<div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center bg-black text-white font-semibold rounded-full text-lg sm:text-xl">
 					{initials}
 				</div>
 
