@@ -14,6 +14,7 @@ import {EditGuestSkeleton} from "@/components/skeleton/EditGuestSkeleton";
 import {ConfirmDialog} from "@/components/ConfirmDialog";
 
 export default function EditGuestPage() {
+	console.log('Edit Guest Page');
 	const router = useRouter();
 	const {user} = useAuth();
 	const {id} = useParams();
@@ -22,6 +23,7 @@ export default function EditGuestPage() {
 	const guestId = Array.isArray(id) ? id[0] : id;
 
 	if (!guestId) return null;
+
 	const [initialValues, setInitialValues] = useState<UpdateGuestDto | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [status, setStatus] = useState<GuestStatus>(GuestStatus.Inactive);
@@ -43,7 +45,6 @@ export default function EditGuestPage() {
 			setStatus(pendingStatus);
 			toast.success("Guest status updated!");
 		} catch (err) {
-			console.error(err);
 			toast.error("Failed to update status. Please try again.");
 		} finally {
 			setPendingStatus(null);
@@ -54,6 +55,12 @@ export default function EditGuestPage() {
 	useEffect(() => {
 		const load = async () => {
 			const g = await GuestsService.getGuestById(guestId);
+			console.error("Guests found!");
+			if(!g) {
+				console.error("Guests not found! Ova");
+				router.push("/not-found");
+				return;
+			}
 
 			setInitialValues({
 				firstName: g.firstName || "",
@@ -73,7 +80,6 @@ export default function EditGuestPage() {
 	}, [id]);
 
 	const handleSubmit = async (values: UpdateGuestDto) => {
-		console.log(values);
 		try {
 			await GuestsService.updateGuest(guestId, {
 				firstName: values.firstName,
@@ -86,9 +92,12 @@ export default function EditGuestPage() {
 			});
 			toast.success("Guest successfully updated!");
 			router.back();
-		} catch (error) {
-			console.error("Failed to update guest", error);
-			toast.error("Failed to update guest. Please try again.");
+		} catch (error: unknown) {
+			const message =
+				typeof error === "object" && error !== null && "message" in error
+					? (error as any).message
+					: "Unknown error occurred";
+			toast.error("Failed to update guest. " + message);
 		}
 	}
 
@@ -98,7 +107,6 @@ export default function EditGuestPage() {
 			toast.success("Guest successfully deleted!");
 			router.back();
 		} catch (error) {
-			console.error("Failed to delete guest", error);
 			toast.error("Failed to delete guest. Please try again.");
 		}
 	}

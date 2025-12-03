@@ -1,8 +1,8 @@
 import {Body, Controller, Get, Post, Req, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {UserDto} from "./dto/userDto";
-import {FirebaseAuthGuard} from "../firebase/guard/firebase.guard";
 import {Public} from "../shared/decorators/public.decorator";
+import {CurrentUser} from "../shared/decorators/current-user.decorator";
 
 @Controller('auth')
 export class AuthController {
@@ -15,10 +15,9 @@ export class AuthController {
 		return this.authService.login(userDto);
 	}
 
-	@UseGuards(FirebaseAuthGuard)
 	@Get('me')
-	async getMe(@Req() req) {
-		return this.authService.getMe(req.user.uid);
+	async getMe(@CurrentUser() uid: string) {
+		return this.authService.getMe(uid);
 	}
 	
 }
