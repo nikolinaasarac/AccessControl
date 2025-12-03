@@ -34,7 +34,6 @@ export default function Guests(){
 					UserService.getMyGuests(),
 					OtcsService.getMyOtcs(),
 				]);
-				console.log(otcData);
 				setGuests(guestData);
 				setOtcs(otcData);
 			} catch (err) {

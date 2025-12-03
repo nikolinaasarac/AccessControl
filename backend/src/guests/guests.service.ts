@@ -45,7 +45,18 @@ export class GuestsService extends BaseService<Guest> {
 	}
 
 	async updateGuest(id: string, updateGuestDto: UpdateGuestDto): Promise<void> {
-		return super.update(id, toPlainObject(updateGuestDto));
+		const existingGuests = await this.query({
+			field: 'phoneNumber',
+			operator: '==',
+			value: updateGuestDto.phoneNumber,
+		});
+
+		const otherGuests = existingGuests.filter(g => g.id !== id);
+
+		if (otherGuests.length > 0) {
+			throw new BadRequestException("Guest with this phone number already exists.");
+		}
+		return await super.update(id, toPlainObject(updateGuestDto));
 	}
 
 	async updateGuestStatus(id: string, status: UpdateGuestStatusDto): Promise<void> {

@@ -7,8 +7,6 @@ import {useEffect, useState} from "react";
 import {Otc} from "@/models/otc.model";
 import OtcsService from "@/lib/service/otcs.service";
 import {Button} from "@/components/ui/button";
-import {OtcForm} from "@/components/OtcForm";
-import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
 import {ConfirmDialog} from "@/components/ConfirmDialog";
 import {OtcDetailsSkeleton} from "@/components/skeleton/OtcDetailsSkeleton";
@@ -17,7 +15,9 @@ export default function OTCInfo() {
 	const router = useRouter();
 	const {user} = useAuth();
 	const {id} = useParams();
+	console.log(id);
 	const otcId = Array.isArray(id) ? id[0] : id;
+	console.log("otc Id: ", otcId);
 
 	if (!otcId)
 		return null;
@@ -32,12 +32,12 @@ export default function OTCInfo() {
 			toast.success("OTC successfully deleted!");
 			router.back();
 		} catch (error) {
-			console.error("Failed to delete OTC", error);
 			toast.error("Failed to delete OTC. Please try again.");
 		}
 	}
 
 	useEffect(() => {
+		console.log("otcId: ", otcId);
 		if (!user || !otcId) return;
 
 		const fetchOtc = async () => {
@@ -53,7 +53,7 @@ export default function OTCInfo() {
 		};
 
 		fetchOtc();
-	}, [user, otcId]);
+	}, [otcId]);
 
 
 	return (
