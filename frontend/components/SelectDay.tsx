@@ -52,7 +52,7 @@ export function SelectDay({value, onChange}: Props) {
 					variant="outline"
 					className="w-full justify-between"
 				>
-					<span className={value.length === 0 ? "text-gray-400" : ""}>
+					<span className={value.length === 0 ? "text-gray-500" : ""}>
 						{selectedLabels}
 					</span>
 				</Button>

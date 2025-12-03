@@ -11,6 +11,7 @@ import {OtcForm} from "@/components/OtcForm";
 import GuestsService from "@/lib/service/guests.service";
 import {toast} from "sonner";
 import {ConfirmDialog} from "@/components/ConfirmDialog";
+import {OtcDetailsSkeleton} from "@/components/skeleton/OtcDetailsSkeleton";
 
 export default function OTCInfo() {
 	const router = useRouter();
@@ -20,7 +21,6 @@ export default function OTCInfo() {
 
 	if (!otcId)
 		return null;
-
 	const [otc, setOtc] = useState<Otc | null>(null);
 	const [loading, setLoading] = useState(true);
 
@@ -42,7 +42,8 @@ export default function OTCInfo() {
 
 		const fetchOtc = async () => {
 			try {
-				const data = await OtcsService.getOtcById(otcId); // Backend endpoint koji vraća jedan OTC
+				setLoading(true);
+				const data = await OtcsService.getOtcById(otcId);
 				setOtc(data);
 			} catch (error) {
 				console.error("Failed to fetch OTC", error);
@@ -54,8 +55,6 @@ export default function OTCInfo() {
 		fetchOtc();
 	}, [user, otcId]);
 
-	if (!otc)
-		return null
 
 	return (
 		<div className="min-h-screen bg-gray-100 p-6 flex items-center justify-center">
@@ -73,8 +72,18 @@ export default function OTCInfo() {
 					</Button>
 				</div>
 				<div className="my-auto overflow-auto">
-					<OneTimeCodeDetails code={otc.code} name={otc.name} expiryDate={otc.expiryDate}
-										createdAt={otc.createdAt}/>
+					{loading ? (
+						<OtcDetailsSkeleton />
+					) : !otc ? (
+						<p className="text-center text-gray-600 py-4">OTC not found.</p>
+					) : (
+						<OneTimeCodeDetails
+							code={otc.code}
+							name={otc.name}
+							expiryDate={otc.expiryDate}
+							createdAt={otc.createdAt}
+						/>
+					)}
 				</div>
 				<div className="flex justify-center mt-4">
 					<Button
