@@ -44,6 +44,7 @@ export function OtcForm({initialValues, onSubmit}: Props) {
 						<LoadingButton
 							type="submit"
 							loading={isSubmitting}
+							className="hover:cursor-pointer"
 						>
 							Generate Code
 						</LoadingButton>

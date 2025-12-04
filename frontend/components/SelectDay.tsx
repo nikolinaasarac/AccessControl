@@ -21,9 +21,10 @@ const DAYS = [
 type Props = {
 	value: string[];
 	onChange: (value: string[]) => void;
+	error?: boolean;
 };
 
-export function SelectDay({value, onChange}: Props) {
+export function SelectDay({value, onChange, error}: Props) {
 	const available = DAYS.filter(d => !value.includes(d.value));
 
 	function addDay(dayValue: string) {
@@ -50,7 +51,8 @@ export function SelectDay({value, onChange}: Props) {
 			<PopoverTrigger asChild>
 				<Button
 					variant="outline"
-					className="w-full justify-between"
+					className={`w-full justify-between 
+      				${error ? "border-red-500 focus:ring-red-400" : "border-gray-300"}`}
 				>
 					<span className={value.length === 0 ? "text-gray-500" : ""}>
 						{selectedLabels}
@@ -65,7 +67,8 @@ export function SelectDay({value, onChange}: Props) {
 							{sortedValue.map(day => {
 								const dayObj = DAYS.find(d => d.value === day);
 								return (
-									<div key={day} className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center gap-1 text-sm">
+									<div key={day}
+										 className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full flex items-center gap-1 text-sm">
 										{dayObj?.label}
 										<button className="font-bold hover:text-red-500" onClick={() => removeDay(day)}>
 											x

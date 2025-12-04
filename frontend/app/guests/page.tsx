@@ -12,7 +12,7 @@ import OtcsService from "@/lib/service/otcs.service";
 import {OtcItem} from "@/components/OtcItem";
 import {useAuth} from "@/context/auth-context";
 
-export default function Guests(){
+export default function Guests() {
 	const router = useRouter();
 	const [guests, setGuests] = useState<Guest[]>([]);
 	const [otcs, setOtcs] = useState<Otc[]>([]);
@@ -30,12 +30,14 @@ export default function Guests(){
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [guestData, otcData] = await Promise.all([
-					UserService.getMyGuests(),
-					OtcsService.getMyOtcs(),
-				]);
-				setGuests(guestData);
-				setOtcs(otcData);
+				if (user) {
+					const [guestData, otcData] = await Promise.all([
+						UserService.getMyGuests(),
+						OtcsService.getMyOtcs(),
+					]);
+					setGuests(guestData);
+					setOtcs(otcData);
+				}
 			} catch (err) {
 				console.error("Failed to fetch data", err);
 			} finally {
@@ -45,31 +47,32 @@ export default function Guests(){
 		fetchData();
 	}, []);
 
-	const handleInvite= async () => {
+	const handleInvite = async () => {
 		router.push("guests/invite");
 	}
 
-	const handleOTC= async () => {
+	const handleOTC = async () => {
 		router.push("guests/otc");
 	}
 
 	return (
 		<div className="w-full bg-gray-100 p-6 flex items-center justify-center">
-			<div className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
-			<div className="flex items-center justify-between mb-6 gap-2">
-				<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">Guests</h1>
-				<div className="flex flex-wrap gap-2 justify-end">
-					{activeTab === "guests" && (
-						<Button className="cursor-pointer" onClick={handleInvite}>
-							Invite guest
-						</Button>)
-					}
-					{activeTab === "otc" && (
-						<Button className="cursor-pointer" onClick={handleOTC}>One time code</Button>
-					)}
-					<Button className="cursor-pointer" onClick={logout}>Log out</Button>
+			<div
+				className="w-full max-w-md sm:max-w-lg md:max-w-lg lg:max-w-xl flex flex-col bg-white p-6 rounded-xl shadow-md">
+				<div className="flex items-center justify-between mb-6 gap-2">
+					<h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">Guests</h1>
+					<div className="flex flex-wrap gap-2 justify-end">
+						{activeTab === "guests" && (
+							<Button className="cursor-pointer" onClick={handleInvite}>
+								Invite guest
+							</Button>)
+						}
+						{activeTab === "otc" && (
+							<Button className="cursor-pointer" onClick={handleOTC}>Create OTC</Button>
+						)}
+						<Button className="cursor-pointer" onClick={logout}>Log out</Button>
+					</div>
 				</div>
-			</div>
 				<div className="flex border-b mb-4">
 					<button
 						className={`px-4 py-2 font-medium ${
@@ -95,7 +98,7 @@ export default function Guests(){
 				<div className="bg-white rounded-lg min-h-[50vh] max-h-[50vh] overflow-y-auto">
 					{loading ? (
 						<div className="flex justify-center items-center h-full">
-							<Loader text="Loading..." />
+							<Loader text="Loading..."/>
 						</div>
 					) : activeTab === "guests" ? (
 						guests.length === 0 ? (
@@ -124,7 +127,7 @@ export default function Guests(){
 										 id={o.id}
 										 code={o.code}
 										 validFrom={o.createdAt}
-										 validTo={o.expiryDate} />
+										 validTo={o.expiryDate}/>
 							))}
 						</ul>
 					)}

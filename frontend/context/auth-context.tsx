@@ -67,6 +67,7 @@ export function AuthProvider({children}: { children: React.ReactNode }) {
 		setUser(null);
 
 		localStorage.removeItem('accessToken');
+		localStorage.removeItem('activeTab');
 
 		router.push('/login');
 	};
