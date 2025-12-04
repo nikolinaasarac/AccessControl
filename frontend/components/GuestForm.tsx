@@ -118,6 +118,7 @@ export default function GuestForm({initialValues, onSubmit, isEdit}: any) {
 							<SelectDay
 								value={values.accessDays}
 								onChange={(days) => setFieldValue("accessDays", days)}
+								error={Boolean(errors.accessDays && touched.accessDays)}
 							/>
 							<div className="text-red-500 text-sm h-2 mt-1">
 								<ErrorMessage
